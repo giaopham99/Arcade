@@ -6,6 +6,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;//
 import javafx.scene.layout.StackPane;
+import javafx.scene.Scene;
+import javafx.geometry.Pos;
 
 public class MainMenu extends Scene{
 
@@ -23,13 +25,14 @@ public class MainMenu extends Scene{
         mainLayout=new VBox();
         imageBox=new HBox();
         stack=new StackPane();
-        viewTetris=new ImageView(new Image());
-        view2048=new ImageView(new Image());
-        background=new ImageView(new Image());
+        viewTetris=new ImageView(new Image("GameCovers/TetrisCover.jpeg"));
+        view2048=new ImageView(new Image("GameCovers/2048Cover.png"));
+        background=new ImageView(new Image("GameCovers/Background.jpg"));
         imageBox.getChildren().addAll(viewTetris, view2048);
-        stack.setAlignment(imageBox, Pos.BOTTOM);
+        stack.setAlignment(imageBox, Pos.BOTTOM_CENTER);
         stack.getChildren().addAll(background, imageBox);
         mainLayout.getChildren().addAll();
+        this.getChildren().add(mainLayout);
     }//MainMenu
     
 }//MainMenu
