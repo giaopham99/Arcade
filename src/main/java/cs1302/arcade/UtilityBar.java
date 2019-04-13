@@ -41,6 +41,8 @@ public class UtilityBar extends MenuBar{
     
     public UtilityBar(){
         super();
+        file = new Menu("File");
+        help = new Menu("Help");
         exitArcade=new MenuItem("Exit Arcade");
         exitGame=new MenuItem("Exit Game");
         controls=new MenuItem("Controls");
@@ -58,29 +60,29 @@ public class UtilityBar extends MenuBar{
     }//UtilityBar
 
     private void controlScreen(){
-        //Create vboxes to contain rules and buttons
-        //Add vboxes to tab
-        //add tabs to pane
-        //add pane to scene
-
-        VBox instruct = new VBox();
+        Button close = new Button("Close");
+        VBox pageTetris = new VBox();
+        pageTetris.getChildren().addAll(new Text(RULES_TETRIS), close);
+        VBox page2048 = new VBox();
+        page2048.getChildren().addAll(new Text(RULES_2048), close);
+        
         TabPane pane = new TabPane();
-        Tab tabTetris = new Tab("Tetris Rules",new Text(RULES_TETRIS));
-        Tab tab2048 = new Tab("2048 Rules",new Text(RULES_2048));
+        Tab tabTetris = new Tab("Tetris Rules",pageTetris);
+        Tab tab2048 = new Tab("2048 Rules", page2048);
 
-        pane.getTabs.addAll(tabTetris, tab2048);
-        instruct.getChildren().addAll(pane);
+        pane.getTabs().addAll(tabTetris, tab2048);
+   
         //Create Stage and Scene
-        Scene scene = new Scene(instruct);
-        Stage helpWindow = new Stage(scene);
+        Scene scene = new Scene(pane);
+        Stage helpWindow = new Stage();
+        helpWindow.setScene(scene);
+
+        close.setOnAction(e -> helpWindow.close());
+        
         helpWindow.initModality(Modality.APPLICATION_MODAL);
         helpWindow.setTitle("How To Play");
         helpWindow.setMinWidth(300);
         helpWindow.setMinHeight(400);
-        
-        Button close = new Button("Close");
-        close.setOnAction(e -> helpWindow.close());
-
         helpWindow.show();
     } // controlScreen()
     

@@ -57,13 +57,16 @@ public class ArcadeApp extends Application {
          * (rectangle) in a group.
          */
 
-        r.setX(50);                                // 50px in the x direction (right)
-        r.setY(50);                                // 50ps in the y direction (down)
-        group.getChildren().add(r);                // add to main container
-        r.setOnMouseClicked(createMouseHandler()); // clicks on the rectangle move it randomly
-        group.setOnKeyPressed(createKeyHandler()); // left-right key presses move the rectangle
+        // r.setX(50);                                // 50px in the x direction (right)
+        //r.setY(50);                                // 50ps in the y direction (down)
+        //group.getChildren().add(r);                // add to main container
+        //r.setOnMouseClicked(createMouseHandler()); // clicks on the rectangle move it randomly
+        //group.setOnKeyPressed(createKeyHandler()); // left-right key presses move the rectangle
 
-        Scene scene = new Scene(group, 640, 480);
+        
+        //Scene scene = new Scene(group, 640, 480);
+        MainMenu main = new MainMenu();
+        Scene scene = new Scene(main);
         stage.setTitle("cs1302-arcade!");
         stage.setScene(scene);
         stage.sizeToScene();
@@ -71,7 +74,7 @@ public class ArcadeApp extends Application {
 
         // the group must request input focus to receive key events
         // @see https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html#requestFocus--
-        group.requestFocus();
+        //group.requestFocus();
 
     } // start
 
