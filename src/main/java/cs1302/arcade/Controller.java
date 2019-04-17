@@ -7,17 +7,17 @@ import java.awt.event.KeyListener;
 public class Controller implements KeyListener{
 
     Group group;
-    boolean isTetris;
+    boolean is2048;
     
-    public Controller(Group g, boolean isTetris){
-        this.isTetris = isTetris;
+    public Controller(Group g, boolean is2048){
+        this.is2048 = is2048;
         group=g;
     }//controller
 
     public void keyPressed(KeyEvent e){
         int keyCode = e.getKeyCode();
         
-        if (isTetris){
+        if (is2048){
             switch (keyCode){
                 case KeyEvent.VK_UP: group.slideUp();
                     break;
