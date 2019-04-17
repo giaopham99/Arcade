@@ -8,12 +8,13 @@ public class App2048 extends Group{
 
     
     private Tile[][] board = new Tile[4][4];
-
+    private Controller control;
     
     public App2048(){
         super();
-        scoreBoard = 0;
 
+        control=new Controller(this, true);
+        
         for(int row = 0; row < 4; row++) {
             for(int col = 0; col < 4; col++) {
                 board[row][col] = new Tile(0);
@@ -34,4 +35,110 @@ public class App2048 extends Group{
             board[genX][genY] = new Tile(2);
         }
     } // getRandPos
+
+    private void swap(int row,int first, int sec){
+        Tile copy=board[row][first];
+        board[row][first]=board[row][sec];
+        board[row][sec]=copy;
+    }//swap
+
+    public void slideUp(){
+        for (int col=0;col<4;col++){
+            this.slideColUp(col);
+            this.combineUp(col);
+            this.slideColUp(col);
+        }//for
+    }//slideUp
+
+    public void slideColUp(int col){
+        for (int row=0;row<3;row++){
+            if (board[row][col].getValue()==0 && board[row+1][col].getValue()>0){
+                swap(col,row,row+1);
+            }//if
+        }//for
+    }//slideColUp
+
+    public void combineUp(int col){
+        for (int row=0;row<3;row++){
+            if (board[row][col].getValue() == board[row+1][col].getValue()){
+                board[row][col]=board[row+1][col];
+                board[row+1][col].setValue(0);
+            }//if
+        }//for
+    }//combineUp
+
+    public void slideDown(){
+        for (int col=0;col<4;col++){
+            this.slideColDown(col);
+            this.combineDown(col);
+            this.slideColDown(col);
+        }//for
+    }//slideDown
+
+    public void slideColDown(int col){
+        for (int row=3;row>0;row--){
+            if (board[row][col].getValue()==0 && board[row-1][col].getValue()>0){
+                swap(col,row,row-1);
+            }//if
+        }//for
+    }//slideColDown
+
+    public void combineDown(int col){
+        for (int row=3;row>0;row--){
+            if (board[row][col].getValue() == board[row-1][col].getValue()){
+                board[row][col]=board[row-1][col];
+                board[row-1][col].setValue(0);
+            }//if
+        }//for
+    }//combineDown
+
+    public void slideLeft(){
+        for (int row=0;row<4;row++){
+            this.slideRowLeft(row);
+            this.combineLeft(row);
+            this.slideRowLeft(row);
+        }//for
+    }//slideLeft
+
+    public void slideRowLeft(int row){
+        for (int col=0;col<3;col++){
+            if (board[row][col].getValue()==0 && board[row][col+1].getValue()>0){
+                swap(row,col,col+1);
+            }//if
+        }//for
+    }//slideRowLeft
+
+    private void combineLeft(int row){
+        for (int col=0;col<3;col++){
+            if (board[row][col].getValue() == board[row][col+1].getValue()){
+                board[row][col]=board[row][col+1];
+                board[row][col+1].setValue(0);
+            }//if
+        }//for
+    }//combineLeft
+
+    public void slideRight(){
+        for (int row=0;row<4;row++){
+            this.slideRowRight(row);
+            this.combineRight(row);
+            this.slideRowRight(row);
+        }//for
+    }//slideRight
+
+    private void slideRowRight(int row){
+        for (int col=3;col>0;col--){
+            if (board[row][col].getValue()==0 && board[row][col-1].getValue()>0){
+                swap(row,col,col-1);
+            }//if
+        }//for
+    }//slideRowRight
+
+    private void combineRight(int row){
+        for (int col=3;col>0;col--){
+            if (board[row][col].getValue() == board[row][col-1].getValue()){
+                board[row][col]=board[row][col-1];
+                board[row][col-1].setValue(0);
+            }//if
+        }//for
+    }//combineRight
 }//App2048

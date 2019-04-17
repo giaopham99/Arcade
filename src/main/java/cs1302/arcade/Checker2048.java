@@ -1,5 +1,5 @@
 package cs1302.arcade;
 
-public class Checker2049{
+public class Checker2048{
     
 }

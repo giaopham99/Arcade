@@ -2,14 +2,15 @@ package cs1302.arcade;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javafx.scene.Group;
 
 
 public class Controller implements KeyListener{
 
-    Group group;
+    App2048 group;
     boolean is2048;
     
-    public Controller(Group g, boolean is2048){
+    public Controller(App2048 g, boolean is2048){
         this.is2048 = is2048;
         group=g;
     }//controller
@@ -29,25 +30,25 @@ public class Controller implements KeyListener{
                     break;
             }//switch
         }//if
-        else{
-            switch (keyCode){
-                case KeyEvent.VK_DOWN: group.slam();
-                    break;
-                case KeyEvent.VK_LEFT: group.moveLeft();
-                    break;
-                case KeyEvent.VK_RIGHT: group.moveRight();
-                    break;
-                case KeyEvent.VK_SPACE: group.rotatePiece();
-                    break;
-            }//switch
-        }//else
+        //else{
+        //  switch (keyCode){
+        //      case KeyEvent.VK_DOWN: group.slam();
+        //          break;
+        //      case KeyEvent.VK_LEFT: group.moveLeft();
+        //          break;
+        //      case KeyEvent.VK_RIGHT: group.moveRight();
+        //          break;
+        //      case KeyEvent.VK_SPACE: group.rotatePiece();
+        //          break;
+        //  }//switch
+        //}//else
     }//keyPressed
 
     public void keyReleased(KeyEvent e){
-        return;
+        e.consume();
     }//keyReleased
 
     public void keyTyped(KeyEvent e){
-        return;
+        e.consume();
     }//keyTyped
 }//Controller

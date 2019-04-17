@@ -23,44 +23,52 @@ public class Tile{
     private ImageView imgView = new ImageView();
     
     public Tile(int value){
-        this.value = value;
-        String path = ""; 
-        switch(value) {
-        case 0: path = TILE_0;
-            break;
-        case 2: path = TILE_2;
-            break;
-        case 4: path = TILE_4;
-            break;
-        case 8: path = TILE_8;
-            break;
-        case 16: path = TILE_16;
-            break;
-        case 32: path = TILE_32;
-            break;
-        case 64: path = TILE_64;
-            break;
-        case 128: path = TILE_128;
-            break;
-        case 256: path = TILE_256;
-            break;
-        case 512: path = TILE_512;
-            break;
-        case 1024: path = TILE_1024;
-            break;
-        case 2048: path = TILE_2048;
-            break;
-        case 4096: path = TILE_4096;
-            break;
-        case 8192: path = TILE_8192;
-            break;
-        }
-        imgView.setImage(new Image(path));
-    }
+        this.setValue(value);
+    }//Tile
 
     public int getValue(){
         int temp = value;
         return temp;
     } // getValue
+
+    public void setValue(int value){
+        this.value=value;
+        imgView.setImage(new Image(getURL(this.value)));
+    }//setValue
+
+    public String getURL(int value){
+        String path = ""; 
+        switch(value) {
+            case 0: path = TILE_0;
+                break;
+            case 2: path = TILE_2;
+                break;
+            case 4: path = TILE_4;
+                break;
+            case 8: path = TILE_8;
+                break;
+            case 16: path = TILE_16;
+                break;
+            case 32: path = TILE_32;
+                break;
+            case 64: path = TILE_64;
+                break;
+            case 128: path = TILE_128;
+                break;
+            case 256: path = TILE_256;
+                break;
+            case 512: path = TILE_512;
+                break;
+            case 1024: path = TILE_1024;
+                break;
+            case 2048: path = TILE_2048;
+                break;
+            case 4096: path = TILE_4096;
+                break;
+            case 8192: path = TILE_8192;
+                break;
+        }//switch
+        return path;
+    }//setImage
 
 } // Tile
