@@ -1,6 +1,7 @@
 package cs1302.arcade;
 
 import javafx.scene.Group;
+import javafx.scene.layout.GridPane;
 
 public class App2048 extends Group{
 
@@ -9,12 +10,13 @@ public class App2048 extends Group{
     
     private Tile[][] board = new Tile[4][4];
     private Controller control;
-    
+    private Player p1;
+   
     public App2048(){
         super();
 
-        control=new Controller(this, true);
-        
+        control = new Controller(this, true);
+        p1 = new Player();
         for(int row = 0; row < 4; row++) {
             for(int col = 0; col < 4; col++) {
                 board[row][col] = new Tile(0);
@@ -61,8 +63,9 @@ public class App2048 extends Group{
     public void combineUp(int col){
         for (int row=0;row<3;row++){
             if (board[row][col].getValue() == board[row+1][col].getValue()){
-                board[row][col]=board[row+1][col];
+                board[row][col].setValue(2*board[row+1][col].getValue());
                 board[row+1][col].setValue(0);
+                p1.addScore(board[row][col]);
             }//if
         }//for
     }//combineUp
@@ -86,8 +89,9 @@ public class App2048 extends Group{
     public void combineDown(int col){
         for (int row=3;row>0;row--){
             if (board[row][col].getValue() == board[row-1][col].getValue()){
-                board[row][col]=board[row-1][col];
+                board[row][col].setValue(2*board[row-1][col].getValue());
                 board[row-1][col].setValue(0);
+                p1.addScore(board[row][col]);
             }//if
         }//for
     }//combineDown
@@ -111,8 +115,9 @@ public class App2048 extends Group{
     private void combineLeft(int row){
         for (int col=0;col<3;col++){
             if (board[row][col].getValue() == board[row][col+1].getValue()){
-                board[row][col]=board[row][col+1];
+                board[row][col].setValue(2*board[row][col+1].getValue());
                 board[row][col+1].setValue(0);
+                p1.addScore(board[row][col]);
             }//if
         }//for
     }//combineLeft
@@ -136,8 +141,9 @@ public class App2048 extends Group{
     private void combineRight(int row){
         for (int col=3;col>0;col--){
             if (board[row][col].getValue() == board[row][col-1].getValue()){
-                board[row][col]=board[row][col-1];
+                board[row][col].setValue(2*board[row][col-1].getValue());
                 board[row][col-1].setValue(0);
+                p1.addScore(board[row][col]);
             }//if
         }//for
     }//combineRight
