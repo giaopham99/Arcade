@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Tile{
-    public static final String TILE_0 = "Tiles2048/BlankTile";
+    public static final String TILE_0 = "Tiles2048/BlankTile.png";
     public static final String TILE_2 = "Tiles2048/Tile2.png";
     public static final String TILE_4 = "Tiles2048/Tile4.png";
     public static final String TILE_8 = "Tiles2048/Tile8.png";
@@ -20,16 +20,24 @@ public class Tile{
     public static final String TILE_8192 = "Tiles2048/Tile8192.png";
     
     private int value;
-    private ImageView imgView = new ImageView();
+    private ImageView imgView;
     
     public Tile(int value){
+        imgView = new ImageView();
+        imgView.setFitWidth(100);
+        imgView.setFitHeight(100);
         this.setValue(value);
     }//Tile
-
+    
+    public ImageView getImgView(){
+        ImageView copy = imgView;
+        return copy;
+    }// getImgView
+    
     public int getValue(){
         int temp = value;
         return temp;
-    } // getValue
+    }// getValue
 
     public void setValue(int value){
         this.value=value;

@@ -20,7 +20,7 @@ public class Controller implements KeyListener{
         
         if (is2048){
             switch (keyCode){
-                case KeyEvent.VK_UP: group.slideUp();
+            case KeyEvent.VK_UP: System.out.println("test");
                     break;
                 case KeyEvent.VK_DOWN: group.slideDown();
                     break;
