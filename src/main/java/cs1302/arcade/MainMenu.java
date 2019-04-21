@@ -41,6 +41,24 @@ public class MainMenu extends VBox{
         button2048.setOnAction(e-> {
                 App2048 app2048 = new App2048();
                 Scene scene = new Scene(app2048);
+                  scene.setOnKeyPressed(
+                      x-> {
+                          switch(x.getCode()) {
+                          case UP:
+                              app2048.slideUp();
+                              break;
+                          case DOWN:
+                              app2048.slideDown();
+                              break;
+                          case LEFT:
+                              app2048.slideLeft();
+                              break;
+                          case RIGHT:
+                              app2048.slideRight();
+                              break;
+                          }
+                      }
+                      );
                 Stage stage = new Stage();
                 stage.setTitle("2048!");
                 stage.setScene(scene);

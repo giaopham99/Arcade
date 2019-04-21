@@ -13,6 +13,7 @@ public class Controller implements KeyListener{
     public Controller(App2048 g, boolean is2048){
         this.is2048 = is2048;
         group=g;
+      
     }//controller
 
     public void keyPressed(KeyEvent e){

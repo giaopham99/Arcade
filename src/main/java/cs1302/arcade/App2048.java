@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
-
+import java.awt.event.KeyEvent;
 
 public class App2048 extends Group{
 
@@ -48,12 +48,6 @@ public class App2048 extends Group{
 
 
         this.getChildren().addAll(grid);
-        this.setOnKeyPressed(e->{
-                KeyCode dir = e.getCode();
-                    slideDown();
-                    System.out.println("test");
-                
-            });
         //win menu (continue or new game)
         //game over menu (retrun to arcade, close, or new game)
     }//App2048
@@ -96,9 +90,9 @@ public class App2048 extends Group{
     }// getRandPos
 
     private void swap(int row,int first, int sec){
-        Tile copy=board[row][first];
-        board[row][first]=board[row][sec];
-        board[row][sec]=copy;
+        Tile copy = new Tile(board[row][first].getValue());
+        board[row][first].setValue(board[row][sec].getValue());
+        board[row][sec].setValue(copy.getValue());
     }//swap
 
     public boolean slideUp(){
