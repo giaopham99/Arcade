@@ -17,3 +17,13 @@ Here is a sample entry (delete this line; also: feel free to copy/paste/modify):
 2. **TODO:** Finish GUI and functions of 2048. 
 
 3. **PROB:** Figuring out how to manipulate components on the game board.
+
+
+    
+## TUE 2019-04-23 @ 11:55 PM EST
+
+1. **DONE:** Finished 2048 functionality 
+             
+2. **TODO:** Finish 2048 and Build levels for frogger
+
+3. **PROB:** Keyboard controls and translating things across board
