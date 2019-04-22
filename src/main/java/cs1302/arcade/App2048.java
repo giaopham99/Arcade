@@ -1,12 +1,17 @@
 package cs1302.arcade;
 
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.Group;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
 import java.awt.event.KeyEvent;
+import javafx.stage.Modality;
 
 public class App2048 extends Group{
 
@@ -14,7 +19,7 @@ public class App2048 extends Group{
 
     
     private Tile[][] board;
-    private Controller control;
+
     private Player p1;
     private TilePane game;
     private VBox grid;
@@ -52,6 +57,48 @@ public class App2048 extends Group{
         //game over menu (retrun to arcade, close, or new game)
     }//App2048
 
+    private void displayWin(){
+        VBox root=new VBox();
+        HBox buttons=new HBox();
+        Text winMessage=new Text("Congratulations! You won!");
+        Button keepGoing=new Button("Continue");
+        Button restart=new Button("Restart");
+
+        buttons.getChildren().addAll(keepGoing, restart);
+        root.getChildren().addAll(winMessage, buttons);
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Winner!");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.sizeToScene();
+        stage.show();
+
+        keepGoing.setOnAction(e-> stage.close());
+        restart.setOnAction(e-> restart());
+    }//displayWin
+
+    private void displayLoss(){
+        VBox root=new VBox();
+        HBox buttons=new HBox();
+        Text lossMessage=new Text("No possible moves! You Lose :(");
+        Button playAgain=new Button("Play Again?");
+
+        buttons.getChildren().addAll(playAgain);
+        root.getChildren().addAll(lossMessage, buttons);
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Game Over!");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.sizeToScene();
+        stage.show();
+
+        playAgain.setOnAction(e-> restart());
+    }//displayLoss
+    
     private void setGrid(){
         game.setHgap(10);
         game.setVgap(10);
@@ -67,6 +114,16 @@ public class App2048 extends Group{
         }//for
         */
     }//setGrid
+
+    private void restart(){
+        for (int row=0;row<4;row++){
+            for (int col=0;col<4;col++){
+                board[row][col].setValue(0);
+            }//for
+        }//for
+
+        p1.setScore(0);
+    }//restart
     
     public boolean isFull(){
         boolean isFull = true;
@@ -81,19 +138,30 @@ public class App2048 extends Group{
     }// isFull 
 
     public void genRandPos(){
-        int genX = (int)(Math.random() * 4);
-        int genY = (int)(Math.random() * 4);
-        
-        if(board[genX][genY].getValue()==0) {
-            board[genX][genY].setValue(2);
-        }
+        boolean generated=false;
+
+        while(!generated){
+            int genX = (int)(Math.random() * 4);
+            int genY = (int)(Math.random() * 4);
+            
+            if(board[genX][genY].getValue()==0) {
+                board[genX][genY].setValue(2);
+                generated=true;
+            }//if
+        }//while
     }// getRandPos
 
-    private void swap(int row,int first, int sec){
+    private void swapH(int row,int first, int sec){
         Tile copy = new Tile(board[row][first].getValue());
         board[row][first].setValue(board[row][sec].getValue());
         board[row][sec].setValue(copy.getValue());
-    }//swap
+    }//swapH
+
+    private void swapV(int col, int first, int sec){
+        Tile copy = new Tile(board[first][col].getValue());
+        board[first][col].setValue(board[sec][col].getValue());
+        board[sec][col].setValue(copy.getValue());
+    }//swapV
 
     public boolean slideUp(){
         Tile[][] copy = board;
@@ -114,14 +182,18 @@ public class App2048 extends Group{
             }// for
         }//for
 
+        genRandPos();
+
         return canSlide;
     }//slideUp
 
     public void slideColUp(int col){
-        for (int row=0;row<3;row++){
-            if (board[row][col].getValue()==0 && board[row+1][col].getValue()>0){
-                swap(col,row,row+1);
-            }//if
+        for (int i=0;i<3;i++){
+            for (int row=0;row<3;row++){
+                if (board[row][col].getValue()==0 && board[row+1][col].getValue()>0){
+                    swapV(col,row,row+1);
+                }//if
+            }//for
         }//for
     }//slideColUp
 
@@ -153,14 +225,18 @@ public class App2048 extends Group{
             }// for
         }//for
 
+        genRandPos();
+
         return canSlide;
     }//slideDown
 
     public void slideColDown(int col){
-        for (int row=3;row>0;row--){
-            if (board[row][col].getValue()==0 && board[row-1][col].getValue()>0){
-                swap(col,row,row-1);
-            }//if
+        for (int i=0;i<3;i++){
+            for (int row=3;row>0;row--){
+                if (board[row][col].getValue()==0 && board[row-1][col].getValue()>0){
+                    swapV(col,row,row-1);
+                }//if
+            }//for
         }//for
     }//slideColDown
 
@@ -192,14 +268,18 @@ public class App2048 extends Group{
             }// for
         }//for
 
+        genRandPos();
+
         return canSlide;
     }//slideLeft
 
     public void slideRowLeft(int row){
-        for (int col=0;col<3;col++){
-            if (board[row][col].getValue()==0 && board[row][col+1].getValue()>0){
-                swap(row,col,col+1);
-            }//if
+        for (int i=0;i<3;i++){
+            for (int col=0;col<3;col++){
+                if (board[row][col].getValue()==0 && board[row][col+1].getValue()>0){
+                    swapH(row,col,col+1);
+                }//if
+            }//for
         }//for
     }//slideRowLeft
 
@@ -230,15 +310,19 @@ public class App2048 extends Group{
                 }//if
             }// for
         }//for
+
+        genRandPos();
         
         return canSlide;
     }//slideRight
 
     private void slideRowRight(int row){
-        for (int col=3;col>0;col--){
-            if (board[row][col].getValue()==0 && board[row][col-1].getValue()>0){
-                swap(row,col,col-1);
-            }//if
+        for (int i=0;i<3;i++){
+            for (int col=3;col>0;col--){
+                if (board[row][col].getValue()==0 && board[row][col-1].getValue()>0){
+                    swapH(row,col,col-1);
+                }//if
+            }//for
         }//for
     }//slideRowRight
 

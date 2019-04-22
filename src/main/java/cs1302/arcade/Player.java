@@ -6,9 +6,13 @@ public class Player{
     public int getScore(){
         int temp = score;
         return temp;
-    }
+    }//getScore
 
     public void addScore(int add){
         score += add;
-    }
+    }//addScore
+
+    public void setScore(int score){
+        this.score=score;
+    }//setScore
 } // Player
