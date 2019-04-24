@@ -69,6 +69,7 @@ public class ArcadeApp extends Application {
         Scene scene = new Scene(main);
         stage.setTitle("cs1302-arcade!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
 

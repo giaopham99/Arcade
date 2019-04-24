@@ -63,6 +63,7 @@ public class MainMenu extends VBox{
                 stage.setTitle("2048!");
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
                 stage.sizeToScene();
                 stage.show();
             });
