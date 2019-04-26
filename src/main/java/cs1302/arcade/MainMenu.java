@@ -21,6 +21,7 @@ public class MainMenu extends VBox{
     ImageView viewTetris;
     ImageView view2048;
     Button button2048;
+    Button buttonFrogger;
     ImageView background;
     FlowPane imagePane;
     
@@ -34,6 +35,19 @@ public class MainMenu extends VBox{
         viewTetris=new ImageView(new Image("MenuImages/TetrisCover.jpeg"));
         viewTetris.setFitWidth(220);
         viewTetris.setFitHeight(220);
+        buttonFrogger=new Button("",viewTetris);
+        buttonFrogger.setOnAction(e-> {
+                AppFrogger appFrog=new AppFrogger();
+                Scene scene = new Scene(appFrog);
+                Stage stage = new Stage();
+                stage.setTitle("Frogger!");
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.sizeToScene();
+                stage.show();
+            });//setOnAction
+        
         
         //2048 Image
         view2048=new ImageView(new Image("MenuImages/2048Cover.png"));
@@ -74,7 +88,7 @@ public class MainMenu extends VBox{
         //Layout
         imagePane.setHgap(100);
         imagePane.setAlignment(Pos.BOTTOM_CENTER);
-        imagePane.getChildren().addAll(viewTetris, button2048);
+        imagePane.getChildren().addAll(buttonFrogger, button2048);
         stack.getChildren().addAll(background, imagePane);
 
         this.getChildren().addAll(new UtilityBar(), stack);
