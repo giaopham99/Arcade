@@ -18,7 +18,7 @@ public class MainMenu extends VBox{
 
     //Image previewTetris;
     //Image preview2048;
-    ImageView viewTetris;
+    ImageView viewFrogger;
     ImageView view2048;
     Button button2048;
     Button buttonFrogger;
@@ -32,10 +32,10 @@ public class MainMenu extends VBox{
         stack=new StackPane();
         
         //Tetris Image
-        viewTetris=new ImageView(new Image("MenuImages/TetrisCover.jpeg"));
-        viewTetris.setFitWidth(220);
-        viewTetris.setFitHeight(220);
-        buttonFrogger=new Button("",viewTetris);
+        viewFrogger=new ImageView(new Image("MenuImages/FroggerCover.jpg"));
+        viewFrogger.setFitWidth(220);
+        viewFrogger.setFitHeight(220);
+        buttonFrogger=new Button("",viewFrogger);
         buttonFrogger.setOnAction(e-> {
                 AppFrogger appFrog=new AppFrogger();
                 Scene scene = new Scene(appFrog);

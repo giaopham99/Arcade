@@ -11,7 +11,7 @@ public class FroggerLevels{
     static final Image ROAD=new Image("FroggerDesign/Road.png");
     static final Image GRASS=new Image("FroggerDesign/Grass.png");
     static final Image BUSH=new Image("FroggerDesign/Bush.png");
-    static final Image LILY=new Image("FroggerDesign/BushLilly.png");
+    static final Image LILY=new Image("FroggerDesign/Lily.png");
     
     protected TilePane genLevel1(){
         TilePane level1=new TilePane();
