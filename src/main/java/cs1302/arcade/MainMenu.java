@@ -31,7 +31,7 @@ public class MainMenu extends VBox{
         imagePane=new FlowPane(Orientation.HORIZONTAL);
         stack=new StackPane();
         
-        //Tetris Image
+        //Frogger Image
         viewFrogger=new ImageView(new Image("MenuImages/FroggerCover.jpg"));
         viewFrogger.setFitWidth(220);
         viewFrogger.setFitHeight(220);
@@ -39,6 +39,18 @@ public class MainMenu extends VBox{
         buttonFrogger.setOnAction(e-> {
                 AppFrogger appFrog=new AppFrogger();
                 Scene scene = new Scene(appFrog);
+                scene.setOnKeyPressed(a->{
+                        switch(a.getCode()){
+                        case UP: appFrog.moveUp();
+                            break;
+                        case DOWN: appFrog.moveDown();
+                            break;
+                        case LEFT: appFrog.moveLeft();
+                            break;
+                        case RIGHT: appFrog.moveRight();
+                            break;
+                        }
+                    });
                 Stage stage = new Stage();
                 stage.setTitle("Frogger!");
                 stage.setScene(scene);
@@ -55,8 +67,7 @@ public class MainMenu extends VBox{
         button2048.setOnAction(e-> {
                 App2048 app2048 = new App2048();
                 Scene scene = new Scene(app2048);
-                  scene.setOnKeyPressed(
-                      x-> {
+                  scene.setOnKeyPressed(x-> {
                           switch(x.getCode()) {
                           case UP:
                               app2048.slideUp();
@@ -71,8 +82,7 @@ public class MainMenu extends VBox{
                               app2048.slideRight();
                               break;
                           }
-                      }
-                      );
+                      });
                 Stage stage = new Stage();
                 stage.setTitle("2048!");
                 stage.setScene(scene);

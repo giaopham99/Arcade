@@ -12,106 +12,114 @@ public class FroggerLevels{
     static final Image GRASS=new Image("FroggerDesign/Grass.png");
     static final Image BUSH=new Image("FroggerDesign/Bush.png");
     static final Image LILY=new Image("FroggerDesign/Lily.png");
+
+    TilePane level;
+    ImageView[][] boardView;
+    public FroggerLevels(){
+        boardView = new ImageView[10][6];
+        level = new TilePane();
+        level.setPrefColumns(6);
+        level.setPrefRows(10);
+        for(int row =0; row<10; row++){
+            for(int col =0; col<6; col++){
+                boardView[row][col] = new ImageView();
+                level.getChildren().add(boardView[row][col]);
+            }//for
+        }//for
+        genLevel1();
+    }//FroggerLevels
+
+    public TilePane getLevel(){
+        return level;
+    }//getLevel
     
-    protected TilePane genLevel1(){
-        TilePane level1=new TilePane();
-
-        level1.setPrefColumns(6);
-        level1.setPrefRows(10);
-
+    protected void genLevel1(){
         for (int i=0;i<10;i++){
             if (i==0){
-                for (int j=0;j<3;j++){
-                    level1.getChildren().addAll(new ImageView(BUSH),new ImageView(LILY));
+                for (int j=0;j<6;j++){
+                    if(j==0 || j==2 || j ==4){
+                        boardView[i][j].setImage(BUSH);
+                    }//if
+                    else{
+                        boardView[i][j].setImage(LILY);
+                    }//else
                 }//for
             }//if
             else if (i==3){
-                waterRow(level1);
+                waterRow(i);
             }//else if
             else if (i==7){
-                roadRow(level1);
+                roadRow(i);
             }//else If
             else {
-                grassRow(level1);
+                grassRow(i);
             }//else
         }//for
-
-        return level1;
     }//genLevel1
 
-    protected TilePane genLevel2(){
-        TilePane level2=new TilePane();
-        level2.setPrefColumns(6);
-        level2.setPrefRows(10);
-
+    protected void genLevel2(){
         for (int i=0;i<10;i++){
             if (i==0){
                 for (int j=0;j<6;j++){
                     if (j==1 || j==4){
-                        level2.getChildren().add(new ImageView(LILY));
+                        boardView[i][j].setImage(LILY);
                     }//if
                     else{
-                        level2.getChildren().add(new ImageView(BUSH));
+                        boardView[i][j].setImage(BUSH);
                     }//else
                 }//for
             }//if
             else if (i==3){
-                waterRow(level2);
+                waterRow(i);
             }//else if
             else if (i==7 || i==5){
-                roadRow(level2);
+                roadRow(i);
             }//else If
             else {
-                grassRow(level2);
+                grassRow(i);
             }//else
         }//for
-        return level2;
     }//genLevel2
 
-    protected TilePane genLevel3(){
-        TilePane level3=new TilePane();
-        level3.setPrefColumns(6);
-        level3.setPrefRows(10);
-
+    protected void genLevel3(){
         for (int i=0;i<10;i++){
             if (i==0){
                 for (int j=0;j<6;j++){
                     if (j==2){
-                        level3.getChildren().add(new ImageView(LILY));
+                        boardView[i][j].setImage(LILY);
                     }//if
                     else{
-                        level3.getChildren().add(new ImageView(BUSH));
+                        boardView[i][j].setImage(BUSH);
                     }//else
                 }//for
             }//if
             else if (i==2 || i==4){
-                waterRow(level3);
+                waterRow(i);
             }//else if
             else if (i==8 || i==7 || i==5){
-                roadRow(level3);
+                roadRow(i);
             }//else If
             else {
-                grassRow(level3);
+                grassRow(i);
             }//else
         }//for
-        return level3;
     }//genLevel3
 
-    protected void grassRow(TilePane tp){
+    protected void grassRow(int row){
         for (int i=0;i<6;i++){
-            tp.getChildren().add(new ImageView(GRASS));
+            boardView[row][i].setImage(GRASS);
         }//for
     }//grassRow
 
-    protected void waterRow(TilePane tp){
+    protected void waterRow(int row){
         for (int i=0;i<6;i++){
-            tp.getChildren().add(new ImageView(WATER));
+            boardView[row][i].setImage(WATER);
         }//for
     }//waterRow
 
-    protected void roadRow(TilePane tp){
+    protected void roadRow(int row){
         for (int i=0;i<6;i++){
-            tp.getChildren().add(new ImageView(ROAD));
+            boardView[row][i].setImage(ROAD);
         }//for
     }//roadRow
     
