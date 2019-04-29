@@ -27,3 +27,15 @@ Here is a sample entry (delete this line; also: feel free to copy/paste/modify):
 2. **TODO:** Finish 2048 and Build levels for frogger
 
 3. **PROB:** Keyboard controls and translating things across board
+
+    
+## TUE 2019-04-30 @ 11:55 PM EST    
+
+1. **DONE:** Finished 2048 and Built frogger levels and began hazard animations  
+             
+2. **TODO:** Finish Frogger
+             Add JavaDocs
+             Controls when opening game
+             Extra Credit (if time)  
+
+3. **PROB:** Hit boxes for objects 
