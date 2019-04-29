@@ -7,7 +7,7 @@ import javafx.scene.layout.TilePane;
 public class AppFrogger extends StackPane{
      
     Player p1;
-    FroggerItems frog = new FroggerItems("frog",90,0,true);
+    FroggerItems frog = new FroggerItems("frog",200,360,true);
     
     public AppFrogger(){
         super();
@@ -18,20 +18,23 @@ public class AppFrogger extends StackPane{
     }//AppFrogger
     
     public void moveUp(){
-        frog.addY(-10);
-        
+        frog.addY(-80);
+        frog.rotateImg(180);
     }//moveUp
 
     public void moveDown(){
-        frog.addY(10);
+        frog.addY(80);
+        frog.rotateImg(0);
     }//moveDown
 
     public void moveLeft(){
-        frog.addX(-10);
+        frog.addX(-80);
+        frog.rotateImg(90);
     }//moveLeft
 
     public void moveRight(){
-        frog.addX(10);
+        frog.addX(80);
+        frog.rotateImg(270);
     }//moveRight
     
 }//AppFrogger

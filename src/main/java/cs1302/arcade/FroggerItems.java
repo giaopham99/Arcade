@@ -59,7 +59,7 @@ public class FroggerItems{
 
     public void addX(int move){
         x += move;
-        item.setTranslateX(move);
+        item.setTranslateX(x);
     }//addX
 
     public int getX(){
@@ -73,7 +73,7 @@ public class FroggerItems{
 
     public void addY(int move){
         y += move;
-        item.setTranslateY(move);
+        item.setTranslateY(y);
     }//addY
 
     public int getY(){
@@ -87,8 +87,7 @@ public class FroggerItems{
     }//setXY
 
     public ImageView getImg(){
-        ImageView temp = item;
-        return temp;
+        return item;
     }//getImg
 
     public void rotateImg(double degrees){
