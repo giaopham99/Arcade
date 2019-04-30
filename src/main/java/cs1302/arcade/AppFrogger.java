@@ -11,27 +11,29 @@ import javafx.util.Duration;
 public class AppFrogger extends StackPane{
      
     Player p1;
+    int level=1;
+
     FroggerItems frog = new FroggerItems("frog",-40,360,true);
     FroggerItems log1 = new FroggerItems("log", -280, -120, true);
+    FroggerItems truck1 = new FroggerItems("truck", -200, 200, true);
+    FroggerItems carBlue = new FroggerItems("cb", -100, 100, false);
+    FroggerItems carYellow = new FroggerItems("cy", 200, 200, false);
+    FroggerItems fly = new FroggerItems("fly", 0, 0, true);
     
     public AppFrogger(){
         super();
         FroggerLevels levelGen=new FroggerLevels();
         frog.rotateImg(180);
         this.getChildren().add(levelGen.getLevel());
-        this.getChildren().add(frog.getImg());
-        setUpSlowLog(log1);
+        
+        Timeline logTL = setUpSlowItems(log1);
+        logTL.stop();
+        //setUpSlowItems(truck1);
 
-        /*
-        EventHandler<ActionEvent> handler = event -> log1.addX(5);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1/100), handler);
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(kf);
-        timeline.play();
-        */
+
+        this.getChildren().add(frog.getImg());
     }//AppFrogger
-    
+
     public void moveUp(){
         if (frog.getY()!=-360){
             frog.addY(-80);
@@ -76,24 +78,26 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveRight
 
-    private void setUpSlowLog(FroggerItems log){
-        this.getChildren().add(log.getImg());
-
+    private Timeline setUpSlowItems(FroggerItems item){
+        this.getChildren().add(item.getImg());
+        
         EventHandler<ActionEvent> handler = event -> {
-            if (log.getX()==320){
-                log.setX(-280);
+            if (item.getX()==320){
+                item.setX(-280);
             }//if
             else {
-                log.addX(5);
-                System.out.println(log.getX());
+                item.addX(5);
+                System.out.println(item.getX());
             }//else
         };
+        
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(kf);
         timeline.play();
 
-    }//setUpHazards
+        return timeline;
+    }//setUpSlowItems
     
 }//AppFrogger

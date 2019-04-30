@@ -13,17 +13,20 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.stage.Modality;
 import javafx.geometry.Orientation;
+import javafx.application.Platform;
 
 public class MainMenu extends VBox{
 
-    //Image previewTetris;
-    //Image preview2048;
     ImageView viewFrogger;
     ImageView view2048;
     Button button2048;
     Button buttonFrogger;
     ImageView background;
     FlowPane imagePane;
+    //Timeline timelineFast;
+    //Timeline timelineSlow;
+    //KeyFrame kfSlow;
+    //KeyFrame kfFast;
     
     StackPane stack;
 
