@@ -42,24 +42,29 @@ public class MainMenu extends VBox{
         buttonFrogger.setOnAction(e-> {
                 AppFrogger appFrog=new AppFrogger();
                 Scene scene = new Scene(appFrog);
-                scene.setOnKeyPressed(a->{
-                        switch(a.getCode()){
-                        case UP: appFrog.moveUp();
-                            break;
-                        case DOWN: appFrog.moveDown();
-                            break;
-                        case LEFT: appFrog.moveLeft();
-                            break;
-                        case RIGHT: appFrog.moveRight();
-                            break;
-                        }
-                    });
+                Thread t = new Thread(()->{
+                        scene.setOnKeyPressed(a->{
+                                switch(a.getCode()){
+                                case UP: appFrog.moveUp();
+                                    break;
+                                case DOWN: appFrog.moveDown();
+                                    break;
+                                case LEFT: appFrog.moveLeft();
+                                    break;
+                                case RIGHT: appFrog.moveRight();
+                                    break;
+                                };
+                            });
+                });
+                t.setDaemon(true);
+                t.start();
                 Stage stage = new Stage();
                 stage.setTitle("Frogger!");
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setResizable(false);
                 stage.sizeToScene();
+                stage.setOnCloseRequest(y->appFrog.stopTL());
                 stage.show();
             });//setOnAction
         
