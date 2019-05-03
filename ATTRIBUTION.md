@@ -3,12 +3,6 @@
 Proper attribution should be given for all assets (e.g., art, sound, music, etc.) that is not
 authored by members of your project team.
 
-## Alien
-* `src/main/resources/alien.png`
-* Carlos Alface. "Alien" November 15, 2014
-* https://opengameart.org/content/alien-1
-* Creative Commons Attribution 3.0 Unported (CC BY 3.0)
-
 
 ## Retro Wave
 * src/main/resources/MenuImages/Background.png
@@ -16,7 +10,7 @@ authored by members of your project team.
 * https://photofunia.com/effects/retro-wave
 * Capsule Digital © 2019
 
-## Frogger Covers
+## Frogger Cover
 * src/main/resources/MenuImages/FroggerCover.jpg
 * Michael Reznick. “Frogger(1997)” May 28, 2000
 * https://www.mobygames.com/game/windows/frogger_/cover-art/gameCoverId,1912/
@@ -31,7 +25,7 @@ authored by members of your project team.
 
 ## 2048 Tiles
 * src/main/resources/Tiles2048/
-* nazywam. "Alien" November 15, 2014
+* nazywam. "2048 Tiles" November 15, 2014
 * https://opengameart.org/content/2048-tiles
 * Creative Commons Attribution 3.0 Unported (CC BY 3.0)
 
