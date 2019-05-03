@@ -107,7 +107,6 @@ public class AppFrogger extends StackPane{
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(log1);
             makeHandler(log2);
-            collisionCheck1();
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -135,6 +134,72 @@ public class AppFrogger extends StackPane{
 
         return timeline;
     }//setUpFastItems1
+
+    private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2){
+        this.getChildren().addAll(log1.getImg(), log2.getImg());
+        
+        EventHandler<ActionEvent> handler = event -> {
+            makeHandler(log1);
+            makeHandler(log2);
+        };
+        
+        KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        return timeline;
+    }//setUpSlowItems2
+
+    private Timeline setUpFastItems2(FroggerItems truck){
+        this.getChildren().add(truck.getImg());
+        
+        EventHandler<ActionEvent> handler = event -> {
+            makeHandler(truck);
+        };
+        
+        KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        return timeline;
+    }//setUpFastItems2
+
+    private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2){
+        this.getChildren().addAll(log1.getImg(), log2.getImg());
+        
+        EventHandler<ActionEvent> handler = event -> {
+            makeHandler(log1);
+            makeHandler(log2);
+        };
+        
+        KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        return timeline;
+    }//setUpSlowItems3
+
+    private Timeline setUpFastItems3(FroggerItems truck){
+        this.getChildren().add(truck.getImg());
+        
+        EventHandler<ActionEvent> handler = event -> {
+            makeHandler(truck);
+        };
+        
+        KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        return timeline;
+    }//setUpFastItems3
     
     private void makeHandler(FroggerItems item){
             if (item.getX()==320){
