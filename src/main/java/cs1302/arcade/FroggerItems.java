@@ -58,6 +58,7 @@ public class FroggerItems{
     
     public void setX(int x){
         this.x = x;
+        item.setTranslateX(x);
     }//setX
 
     public void addX(int move){
@@ -73,6 +74,7 @@ public class FroggerItems{
 
     public void setY(int y){
         this.y = y;
+        item.setTranslateY(y);
     }//setY
 
     public void addY(int move){

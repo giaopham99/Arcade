@@ -1,7 +1,14 @@
 package cs1302.arcade;
 
+import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.event.EventHandler;
@@ -19,42 +26,121 @@ public class AppFrogger extends StackPane{
     FroggerItems log1 = new FroggerItems("log", -280,-120,120,60,true);
     FroggerItems log2 = new FroggerItems("log",100,-120,120,60,true);
     FroggerItems truck1 = new FroggerItems("truck", -200,200,183,71,true);
-    FroggerItems truck2 = new FroggerItems("truck", -200,200,183,71,true);
-    FroggerItems carBlue = new FroggerItems("cb", -100,100,138,71,false);
-    FroggerItems carYellow = new FroggerItems("cy", 200,200,138,71,false);
-    FroggerItems carGreen = new FroggerItems("cg",200,200,138,71,true);
+    FroggerItems truck2 = new FroggerItems("truck", -200,280,183,71,true);
+    FroggerItems carBlue = new FroggerItems("cb", -100,40,138,71,false);
+    FroggerItems carYellow = new FroggerItems("cy", 200,40,138,71,false);
+    FroggerItems carGreen = new FroggerItems("cg",200,280,138,71,true);
     FroggerItems fly = new FroggerItems("fly",0,0,63,60,true);
     Rectangle test= new Rectangle(-120,-120,60,60);
 
-    
+    FroggerLevels levelGen;
     Timeline slowTL;
     Timeline fastTL;
     
     public AppFrogger(){
         super();
-        FroggerLevels levelGen=new FroggerLevels();
+        levelGen=new FroggerLevels();
         frog.rotateImg(180);
         this.getChildren().add(levelGen.getLevel());
 
-        Thread t = new Thread(()->{
-                slowTL = setUpSlowItems1(log1,log2);
-                fastTL = setUpFastItems1(truck1);
+        //levelGen.genLevel3();
+        Thread t= new Thread(()->{
+                Thread slowThread = new Thread(()->{
+                        slowTL = setUpSlowItems1(log1,log2);
+                });
+
+                Thread fastThread = new Thread(()->{
+                        fastTL = setUpFastItems1(truck1);
+                });
+                slowThread.setDaemon(true);
+                slowThread.start();
                 
+                fastThread.setDaemon(true);
+                fastThread.start();
         });
+
         t.setDaemon(true);
         t.start();
+        
         //logTL.stop();
         //setUpSlowItems(truck1);
         
         Platform.runLater(()-> this.getChildren().add(frog.getImg()));
     }//AppFrogger
 
+    private void displayWin(){
+        VBox root=new VBox();
+        HBox buttons=new HBox();
+        Text winMessage=new Text("Congratulations! You won!");
+        Button playAgain=new Button("Play Again");
+
+        buttons.getChildren().addAll(playAgain);
+        root.getChildren().addAll(winMessage, buttons);
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Winner!");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.sizeToScene();
+        stage.setResizable(false);
+        stage.show();
+
+        playAgain.setOnAction(e->{
+                resetGame();
+                stage.close();
+            });
+    }//displayWin
+
+    private void displayLoss(){
+        VBox root=new VBox();
+        HBox buttons=new HBox();
+        Text lossMessage=new Text("You died! RIP :(");
+        Button playAgain=new Button("Play Again?");
+
+        buttons.getChildren().addAll(playAgain);
+        root.getChildren().addAll(lossMessage, buttons);
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Game Over!");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.sizeToScene();
+        stage.setResizable(false);
+        stage.show();
+
+        playAgain.setOnAction(e->{
+                resetGame();
+                stage.close();
+            });
+    }//displayLoss
+
+    public void resetGame(){
+        levelGen.genLevel1();
+        frog.setX(-40);
+        frog.setY(360);
+        if(level==2){
+            this.getChildren().remove(carBlue);
+            this.getChildren().remove(carYellow);
+        }//if
+        else if(level==3){
+            this.getChildren().remove(carBlue);
+            this.getChildren().remove(carYellow);
+            this.getChildren().remove(carGreen);
+            this.getChildren().remove(truck2);
+        }//else
+        level = 1;
+    }//resetGame
+    
     public void moveUp(){
         if (frog.getY()!=-360){
             frog.addY(-80);
             frog.rotateImg(180);
             frog.getRect().setLocation(frog.getX(),frog.getY());
-            collisionCheck1();
+            if(level==1){
+                checkLevel1();
+            }//if
             System.out.println(frog.getY());
         }//if
         else {
@@ -67,7 +153,6 @@ public class AppFrogger extends StackPane{
             frog.addY(80);
             frog.rotateImg(0);
             frog.getRect().setLocation(frog.getX(),frog.getY());
-            collisionCheck1();
             System.out.println(frog.getY());
         }//if
         else {
@@ -80,7 +165,6 @@ public class AppFrogger extends StackPane{
             frog.addX(-80);
             frog.rotateImg(90);
             frog.getRect().setLocation(frog.getX(),frog.getY());
-            collisionCheck1();
             System.out.println(frog.getX());
         }//if
         else {
@@ -93,7 +177,6 @@ public class AppFrogger extends StackPane{
             frog.addX(80);
             frog.rotateImg(270);
             frog.getRect().setLocation(frog.getX(),frog.getY());
-            collisionCheck1();
             System.out.println(frog.getX());
         }//if
         else {
@@ -101,12 +184,28 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveRight
 
+    private void checkLevel1(){
+        if(frog.getY()== -360){
+            if(frog.getX()== -120
+               || frog.getX()== 40
+               || frog.getX()== 200){
+                levelGen.genLevel2();
+                slowTL = setUpSlowItems2(log1,log2,truck1);
+                fastTL = setUpFastItems2(carBlue,carYellow);
+                frog.setX(-40);
+                frog.setY(360);
+                level++;
+            }//if
+        }//if
+    }//checkLevel1
+    
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
         this.getChildren().addAll(log1.getImg(), log2.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(log1);
             makeHandler(log2);
+            collisionCheckLogs(log1,log2);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -124,6 +223,7 @@ public class AppFrogger extends StackPane{
         
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(truck);
+            collisionCheckVeh(truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
@@ -135,12 +235,11 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpFastItems1
 
-    private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2){
-        this.getChildren().addAll(log1.getImg(), log2.getImg());
-        
+    private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2, FroggerItems truck){
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(log1);
             makeHandler(log2);
+            makeHandler(truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -152,11 +251,12 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpSlowItems2
 
-    private Timeline setUpFastItems2(FroggerItems truck){
-        this.getChildren().add(truck.getImg());
+    private Timeline setUpFastItems2(FroggerItems cb, FroggerItems cy){
+        this.getChildren().addAll(cb.getImg(), cy.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
-            makeHandler(truck);
+            makeHandler(cb);
+            makeHandler(cy);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
@@ -168,12 +268,15 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpFastItems2
 
-    private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2){
-        this.getChildren().addAll(log1.getImg(), log2.getImg());
-        
+    private Timeline setUpSlowItems3(FroggerItems cb, FroggerItems cy,
+                                     FroggerItems cg, FroggerItems truck){
+        this.getChildren().addAll(cg.getImg(), truck.getImg());
+
         EventHandler<ActionEvent> handler = event -> {
-            makeHandler(log1);
-            makeHandler(log2);
+            makeHandler(cb);
+            makeHandler(cy);
+            makeHandler(cg);
+            makeHandler(truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -185,10 +288,12 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpSlowItems3
 
-    private Timeline setUpFastItems3(FroggerItems truck){
-        this.getChildren().add(truck.getImg());
-        
+    private Timeline setUpFastItems3(FroggerItems log1, FroggerItems log2, FroggerItems truck){
+        log1.setY(-200);
+        log2.setY(-40);
         EventHandler<ActionEvent> handler = event -> {
+            makeHandler(log1);
+            makeHandler(log2);
             makeHandler(truck);
         };
         
@@ -215,17 +320,21 @@ public class AppFrogger extends StackPane{
         slowTL.stop();
     }//stopTL
 
-    private boolean collisionCheck1(){
-        if (frog.getRect().intersects(log1.getRect())
-            ||frog.getRect().intersects(log2.getRect())){
-            
-            //lose window
-            System.out.println("Hit a log");
-            return true;
-        }//if
-        else{
-            return false;
-        }//else
-    }//collisionCheck1
-    
+    private boolean collisionCheckLogs(FroggerItems...logs){
+        for(FroggerItems l:logs){
+            if(frog.getRect().intersects(l.getRect())){
+                System.out.println("on Log");
+            }//if
+        }//for
+        return true;
+    }//collisionCheckLogs
+
+    private boolean collisionCheckVeh(FroggerItems...vehicles){
+        for(FroggerItems v:vehicles){
+            if(frog.getRect().intersects(v.getRect())){
+                    System.out.println("Dead");
+                }//if
+        }//for
+        return true;
+    }//collisionCheckVeh
 }//AppFrogger
