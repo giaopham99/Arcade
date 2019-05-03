@@ -7,7 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
-
+import javafx.application.Platform;
 public class AppFrogger extends StackPane{
      
     Player p1;
@@ -15,23 +15,34 @@ public class AppFrogger extends StackPane{
 
     FroggerItems frog = new FroggerItems("frog",-40,360,true);
     FroggerItems log1 = new FroggerItems("log", -280, -120, true);
+    FroggerItems log2 = new FroggerItems("log",100, -120, true);
     FroggerItems truck1 = new FroggerItems("truck", -200, 200, true);
+    FroggerItems truck2 = new FroggerItems("truck", -200, 200, true);
     FroggerItems carBlue = new FroggerItems("cb", -100, 100, false);
     FroggerItems carYellow = new FroggerItems("cy", 200, 200, false);
+    FroggerItems carGreen = new FroggerItems("cg",200, 200, true);
     FroggerItems fly = new FroggerItems("fly", 0, 0, true);
+
+    Timeline slowTL;
+    Timeline fastTL;
     
     public AppFrogger(){
         super();
         FroggerLevels levelGen=new FroggerLevels();
         frog.rotateImg(180);
         this.getChildren().add(levelGen.getLevel());
-        
-        Timeline logTL = setUpSlowItems(log1);
-        logTL.stop();
+
+        Thread t = new Thread(()->{
+                slowTL = setUpSlowItems1(log1,log2);
+                fastTL = setUpFastItems1(truck1);
+                
+        });
+        t.setDaemon(true);
+        t.start();
+        //logTL.stop();
         //setUpSlowItems(truck1);
-
-
-        this.getChildren().add(frog.getImg());
+        
+        Platform.runLater(()-> this.getChildren().add(frog.getImg()));
     }//AppFrogger
 
     public void moveUp(){
@@ -78,17 +89,12 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveRight
 
-    private Timeline setUpSlowItems(FroggerItems item){
-        this.getChildren().add(item.getImg());
+    private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
+        this.getChildren().addAll(log1.getImg(), log2.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
-            if (item.getX()==320){
-                item.setX(-280);
-            }//if
-            else {
-                item.addX(5);
-                System.out.println(item.getX());
-            }//else
+            makeHandler(log1);
+            makeHandler(log2);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -98,6 +104,37 @@ public class AppFrogger extends StackPane{
         timeline.play();
 
         return timeline;
-    }//setUpSlowItems
+    }//setUpSlowItems1
+
+    
+    private Timeline setUpFastItems1(FroggerItems truck){
+        this.getChildren().add(truck.getImg());
+        
+        EventHandler<ActionEvent> handler = event -> {
+            makeHandler(truck);
+        };
+        
+        KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+
+        return timeline;
+    }//setUpFastItems1
+    
+    private void makeHandler(FroggerItems item){
+            if (item.getX()==320){
+                item.setX(-280);
+            }//if
+            else {
+                item.addX(5);
+            }//else
+    }//makeHandler
+
+    public void stopTL(){
+        fastTL.stop();
+        slowTL.stop();
+    }//stopTL
     
 }//AppFrogger
