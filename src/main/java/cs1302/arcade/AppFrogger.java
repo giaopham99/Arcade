@@ -21,7 +21,12 @@ public class AppFrogger extends StackPane{
      
     Player p1;
     int level=1;
-
+    VBox container;
+    Text levelName;
+    Text lvlNum;
+    Text score;
+    Text scoreNum;
+    
     FroggerItems frog = new FroggerItems("frog",-40,360,60,60,true);
     FroggerItems log1 = new FroggerItems("log", -280,-120,120,60,true);
     FroggerItems log2 = new FroggerItems("log",100,-120,120,60,true);
@@ -39,33 +44,30 @@ public class AppFrogger extends StackPane{
     
     public AppFrogger(){
         super();
+        container = new VBox();
+        levelName = new Text("Level: ");
+        lvlNum = new Text("1");
+        score = new Text("Score: ");
+        scoreNum = new Text(Integer.toString(p1.getScore()));
         levelGen=new FroggerLevels();
         frog.rotateImg(180);
         this.getChildren().add(levelGen.getLevel());
 
-        //levelGen.genLevel3();
-//        Thread t= new Thread(()->{
-                Thread slowThread = new Thread(()->{
-                        slowTL = setUpSlowItems1(log1,log2);
-                });
-
-                Thread fastThread = new Thread(()->{
-                        fastTL = setUpFastItems1(truck1);
-                });
-                slowThread.setDaemon(true);
-                slowThread.start();
-                
-                fastThread.setDaemon(true);
-                fastThread.start();
-                //      });
-
-                //t.setDaemon(true);
-                //t.start();
+        Thread slowThread = new Thread(()->{
+                slowTL = setUpSlowItems1(log1,log2);
+        });
         
-        //logTL.stop();
-        //setUpSlowItems(truck1);
+        Thread fastThread = new Thread(()->{
+                fastTL = setUpFastItems1(truck1);
+        });
+        slowThread.setDaemon(true);
+        slowThread.start();
+        
+        fastThread.setDaemon(true);
+        fastThread.start();
         
         Platform.runLater(()-> this.getChildren().add(frog.getImg()));
+        container.getChildren().addAll(levelName, this);
     }//AppFrogger
 
     private void displayWin(){
@@ -142,6 +144,27 @@ public class AppFrogger extends StackPane{
         }//else
         level = 1;
     }//resetGame
+
+    private void snapFrog(){
+        if(frog.getX()>-200 && frog.getX()<-120){
+            frog.setX(-200);
+        }//if
+        else if(frog.getX()<-40){
+            frog.setX(-120);
+        }//else if
+        else if(frog.getX()<40){
+            frog.setX(-40);
+        }//else if
+        else if(frog.getX()<120){
+            frog.setX(40);
+        }//else if
+        else if(frog.getX()<200){
+            frog.setX(120);
+        }//else if
+        else{
+            frog.setX(200);
+        }//else
+    }//snapFrog
     
     public void moveUp(){
         if (frog.getY()!=-360){
@@ -162,6 +185,7 @@ public class AppFrogger extends StackPane{
         else {
             System.out.println("Can't go that way");
         }//else
+        snapFrog();
     }//moveUp
 
     public void moveDown(){
@@ -183,6 +207,7 @@ public class AppFrogger extends StackPane{
         else {
             System.out.println("Can't go that way");
         }//else
+        snapFrog();
     }//moveDown
 
     public void moveLeft(){
