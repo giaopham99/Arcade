@@ -44,7 +44,7 @@ public class AppFrogger extends StackPane{
         this.getChildren().add(levelGen.getLevel());
 
         //levelGen.genLevel3();
-        Thread t= new Thread(()->{
+//        Thread t= new Thread(()->{
                 Thread slowThread = new Thread(()->{
                         slowTL = setUpSlowItems1(log1,log2);
                 });
@@ -57,10 +57,10 @@ public class AppFrogger extends StackPane{
                 
                 fastThread.setDaemon(true);
                 fastThread.start();
-        });
+                //      });
 
-        t.setDaemon(true);
-        t.start();
+                //t.setDaemon(true);
+                //t.start();
         
         //logTL.stop();
         //setUpSlowItems(truck1);
@@ -169,6 +169,15 @@ public class AppFrogger extends StackPane{
             frog.addY(80);
             frog.rotateImg(0);
             frog.getRect().setLocation(frog.getX(),frog.getY());
+            if(level==1){
+                checkLevel1();
+            }//if
+            else if(level==2){
+                checkLevel2();
+            }//else if
+            else if(level==3){
+                checkLevel3();
+            }//else
             System.out.println(frog.getY());
         }//if
         else {
@@ -181,6 +190,15 @@ public class AppFrogger extends StackPane{
             frog.addX(-80);
             frog.rotateImg(90);
             frog.getRect().setLocation(frog.getX(),frog.getY());
+            if(level==1){
+                checkLevel1();
+            }//if
+            else if(level==2){
+                checkLevel2();
+            }//else if
+            else if(level==3){
+                checkLevel3();
+            }//else
             System.out.println(frog.getX());
         }//if
         else {
@@ -193,6 +211,15 @@ public class AppFrogger extends StackPane{
             frog.addX(80);
             frog.rotateImg(270);
             frog.getRect().setLocation(frog.getX(),frog.getY());
+            if(level==1){
+                checkLevel1();
+            }//if
+            else if(level==2){
+                checkLevel2();
+            }//else if
+            else if(level==3){
+                checkLevel3();
+            }//else
             System.out.println(frog.getX());
         }//if
         else {
@@ -216,6 +243,10 @@ public class AppFrogger extends StackPane{
                 displayLoss();
             }//else
         }//if
+        else if(frog.getY()==-120 && !collisionCheckLogs(log1,log2)){
+            stopTL();
+            displayLoss();
+        }//else if
     }//checkLevel1
 
     private void checkLevel2(){
@@ -233,6 +264,10 @@ public class AppFrogger extends StackPane{
                 displayLoss();
             }//else
         }//if
+        else if(frog.getY()==-120 && !collisionCheckLogs(log1,log2)){
+            stopTL();
+            displayLoss();
+        }//else if
     }//checkLevel2
 
     private void checkLevel3(){
@@ -244,6 +279,10 @@ public class AppFrogger extends StackPane{
                 displayLoss();
             }//else
         }//if
+        else if (frog.getY()==-200 || frog.getY()==-40){
+            stopTL();
+            displayLoss();
+        }//else if
     }//checkLevel3
     
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
@@ -376,10 +415,15 @@ public class AppFrogger extends StackPane{
     private boolean collisionCheckLogs(FroggerItems...logs){
         for(FroggerItems l:logs){
             if(frog.getRect().intersects(l.getRect())){
-                System.out.println("on Log");
+                frog.addX(5);
+                if (frog.getX()==225){
+                    stopTL();
+                    displayLoss();
+                }//if
+                return true;
             }//if
         }//for
-        return true;
+        return false;
     }//collisionCheckLogs
 
     private boolean collisionCheckVeh(FroggerItems...vehicles){
