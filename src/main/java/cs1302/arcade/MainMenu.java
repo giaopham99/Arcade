@@ -64,7 +64,10 @@ public class MainMenu extends VBox{
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setResizable(false);
                 stage.sizeToScene();
-                stage.setOnCloseRequest(y->appFrog.stopTL());
+                stage.setOnCloseRequest(y-> {
+                        appFrog.stopTL();
+
+                    });
                 stage.show();
             });//setOnAction
         

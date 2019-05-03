@@ -25,11 +25,11 @@ public class AppFrogger extends StackPane{
     FroggerItems frog = new FroggerItems("frog",-40,360,60,60,true);
     FroggerItems log1 = new FroggerItems("log", -280,-120,120,60,true);
     FroggerItems log2 = new FroggerItems("log",100,-120,120,60,true);
-    FroggerItems truck1 = new FroggerItems("truck", -200,200,183,71,true);
-    FroggerItems truck2 = new FroggerItems("truck", -200,280,183,71,true);
-    FroggerItems carBlue = new FroggerItems("cb", -100,40,138,71,false);
-    FroggerItems carYellow = new FroggerItems("cy", 200,40,138,71,false);
-    FroggerItems carGreen = new FroggerItems("cg",200,280,138,71,true);
+    FroggerItems truck1 = new FroggerItems("truck", -200,200,150,71,true);
+    FroggerItems truck2 = new FroggerItems("truck", -200,280,150,71,true);
+    FroggerItems carBlue = new FroggerItems("cb", -100,40,120,71,false);
+    FroggerItems carYellow = new FroggerItems("cy", 200,40,120,71,false);
+    FroggerItems carGreen = new FroggerItems("cg",200,280,120,71,true);
     FroggerItems fly = new FroggerItems("fly",0,0,63,60,true);
     Rectangle test= new Rectangle(-120,-120,60,60);
 
@@ -118,17 +118,27 @@ public class AppFrogger extends StackPane{
 
     public void resetGame(){
         levelGen.genLevel1();
-        frog.setX(-40);
-        frog.setY(360);
+        frog.setXY(-40,360);
+        frog.rotateImg(180);
         if(level==2){
-            this.getChildren().remove(carBlue);
-            this.getChildren().remove(carYellow);
+            Platform.runLater(()-> {
+                    this.getChildren().remove(carBlue.getImg());
+                    this.getChildren().remove(carYellow.getImg());
+                });
         }//if
         else if(level==3){
-            this.getChildren().remove(carBlue);
-            this.getChildren().remove(carYellow);
-            this.getChildren().remove(carGreen);
-            this.getChildren().remove(truck2);
+            Platform.runLater(()-> {
+                    log1.setY(-120);
+                    log2.setY(-120);
+                    this.getChildren().remove(carBlue.getImg());
+                    this.getChildren().remove(carYellow.getImg());
+                    this.getChildren().remove(carGreen.getImg());
+                    this.getChildren().remove(truck2.getImg());
+                });
+        }//else if
+        else{
+            slowTL.play();
+            fastTL.play();
         }//else
         level = 1;
     }//resetGame
@@ -141,6 +151,12 @@ public class AppFrogger extends StackPane{
             if(level==1){
                 checkLevel1();
             }//if
+            else if(level==2){
+                checkLevel2();
+            }//else if
+            else if(level==3){
+                checkLevel3();
+            }//else
             System.out.println(frog.getY());
         }//if
         else {
@@ -196,8 +212,39 @@ public class AppFrogger extends StackPane{
                 frog.setY(360);
                 level++;
             }//if
+            else{
+                displayLoss();
+            }//else
         }//if
     }//checkLevel1
+
+    private void checkLevel2(){
+        if(frog.getY()== -360){
+            if(frog.getX()== -120
+               || frog.getX()== 120){
+                levelGen.genLevel3();
+                slowTL = setUpSlowItems3(carBlue,carYellow,carGreen,truck2);
+                fastTL = setUpFastItems3(log1,log2,truck1);
+                frog.setX(-40);
+                frog.setY(360);
+                level++;
+            }//if
+            else{
+                displayLoss();
+            }//else
+        }//if
+    }//checkLevel2
+
+    private void checkLevel3(){
+        if(frog.getY()== -360){
+            if(frog.getX()== -40){
+                displayWin();
+            }//if
+            else{
+                displayLoss();
+            }//else
+        }//if
+    }//checkLevel3
     
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
         this.getChildren().addAll(log1.getImg(), log2.getImg());
@@ -240,6 +287,8 @@ public class AppFrogger extends StackPane{
             makeHandler(log1);
             makeHandler(log2);
             makeHandler(truck);
+            collisionCheckLogs(log1,log2);
+            collisionCheckVeh(truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -257,6 +306,7 @@ public class AppFrogger extends StackPane{
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(cb);
             makeHandler(cy);
+            collisionCheckVeh(cb,cy);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
@@ -277,6 +327,7 @@ public class AppFrogger extends StackPane{
             makeHandler(cy);
             makeHandler(cg);
             makeHandler(truck);
+            collisionCheckVeh(cb,cy,cg,truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.1), handler);
@@ -295,6 +346,8 @@ public class AppFrogger extends StackPane{
             makeHandler(log1);
             makeHandler(log2);
             makeHandler(truck);
+            collisionCheckLogs(log1,log2);
+            collisionCheckVeh(truck);
         };
         
         KeyFrame kf = new KeyFrame(Duration.seconds(.05), handler);
@@ -332,8 +385,9 @@ public class AppFrogger extends StackPane{
     private boolean collisionCheckVeh(FroggerItems...vehicles){
         for(FroggerItems v:vehicles){
             if(frog.getRect().intersects(v.getRect())){
-                    System.out.println("Dead");
-                }//if
+                stopTL();
+                displayLoss();
+            }//if
         }//for
         return true;
     }//collisionCheckVeh

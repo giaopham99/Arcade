@@ -91,6 +91,9 @@ public class FroggerItems{
     public void setXY(int x, int y){
         this.x = x;
         this.y = y;
+        hitBox.setLocation(this.x,this.y);
+        item.setTranslateX(this.x);
+        item.setTranslateY(this.y);
     }//setXY
 
     public ImageView getImg(){
