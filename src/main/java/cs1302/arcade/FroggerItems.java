@@ -2,6 +2,7 @@ package cs1302.arcade;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import java.awt.Rectangle;
 
 public class FroggerItems{
 
@@ -19,15 +20,17 @@ public class FroggerItems{
     private ImageView item;
     private int x;
     private int y;
+    private Rectangle hitBox;
     private boolean visible;
 
-    public FroggerItems(String item, int x, int y, boolean visible){
+    public FroggerItems(String item, int x, int y,int width,int height, boolean visible){
         this.item = new ImageView(itemChoice(item));
         this.x =x;
         this.y =y;
         this.item.setTranslateX(x);
         this.item.setTranslateY(y);
         this.visible = visible;
+        hitBox = new Rectangle(this.x,this.y,width,height);
     }//FroggerItems
 
     private Image itemChoice(String item){
@@ -60,6 +63,7 @@ public class FroggerItems{
     public void addX(int move){
         x += move;
         item.setTranslateX(x);
+        hitBox.setLocation(this.x-27,this.y);
     }//addX
 
     public int getX(){
@@ -74,6 +78,7 @@ public class FroggerItems{
     public void addY(int move){
         y += move;
         item.setTranslateY(y);
+        hitBox.setLocation(this.x-27,this.y);
     }//addY
 
     public int getY(){
@@ -89,6 +94,10 @@ public class FroggerItems{
     public ImageView getImg(){
         return item;
     }//getImg
+
+    public Rectangle getRect(){
+        return hitBox;
+    }//getRect(lol) 
 
     public void rotateImg(double degrees){
         item.setRotate(degrees);
