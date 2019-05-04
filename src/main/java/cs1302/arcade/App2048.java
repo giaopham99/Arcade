@@ -8,12 +8,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
-import java.awt.event.KeyEvent;
 import javafx.stage.Modality;
 
+/**
+ * Main class that creates the functionalities of 2048.
+ */
 public class App2048 extends VBox{
-    
+
+    //Instance variables
     private Tile[][] board;
     private Player p1;
     private TilePane game;
@@ -23,7 +25,10 @@ public class App2048 extends VBox{
     private Text actualScore;
     private boolean won;
     private Button restartGame;
-    
+
+    /**
+     * Constructs a new 2048 game.
+     */
     public App2048(){
         super();
         won = false;
@@ -42,7 +47,7 @@ public class App2048 extends VBox{
         actualScore = new Text(Integer.toString(p1.getScore()));
         scoreBoard.getChildren().addAll(restartGame,score, actualScore);
         grid.getChildren().addAll(game);
-
+        
         //Setting up a blank board
         for(int row = 0; row < 4; row++) {
             for(int col = 0; col < 4; col++) {
@@ -50,7 +55,7 @@ public class App2048 extends VBox{
                 game.getChildren().add(board[row][col].getImgView());
             }//for
         }//for
-
+        
         restartGame.setOnAction(e->restart());
         
         //Start with two random tiles
@@ -58,14 +63,17 @@ public class App2048 extends VBox{
         genRandPos();
         this.getChildren().addAll(scoreBoard,grid);
     }//App2048
-
+    
+    /**
+     * Private method that creates a "Win" screen for when the player has reached the 2048 tile.
+     */
     private void displayWin(){
         VBox root=new VBox();
         HBox buttons=new HBox();
         Text winMessage=new Text("Congratulations! You won!");
         Button keepGoing=new Button("Continue");
         Button restart=new Button("Restart");
-
+        
         buttons.getChildren().addAll(keepGoing, restart);
         root.getChildren().addAll(winMessage, buttons);
         
@@ -77,20 +85,23 @@ public class App2048 extends VBox{
         stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
-
+        
         keepGoing.setOnAction(e-> stage.close());
         restart.setOnAction(e-> {
                 restart();
                 stage.close();
-                    });
+            });
     }//displayWin
-
+    
+    /**
+     * Private method that creates a "Game Over" screen with options for when player loses the game.
+     */
     private void displayLoss(){
         VBox root=new VBox();
         HBox buttons=new HBox();
         Text lossMessage=new Text("No possible moves! You Lose :(");
         Button playAgain=new Button("Play Again?");
-
+        
         buttons.getChildren().addAll(playAgain);
         root.getChildren().addAll(lossMessage, buttons);
         
@@ -108,23 +119,20 @@ public class App2048 extends VBox{
                 stage.close();
             });
     }//displayLoss
-    
+
+    /**
+     * Private method to set up the 2048 game area properties.
+     */
     private void setGrid(){
         game.setHgap(10);
         game.setVgap(10);
-        // game.setMaxWidth(450);
-        // game.setMaxHeight(450);
         game.setPrefColumns(4);
         game.setPrefRows(4);
-        /*
-        for(int row=0;row <4; row++){
-            for(int col=0; col<4; col++){
-                game.setConstraints(board[row][col].getImgView(),row,col);
-            }//for
-        }//for
-        */
     }//setGrid
 
+    /**
+     * Private method to reset the game board for a new game.
+     */
     private void restart(){
         for (int row=0;row<4;row++){
             for (int col=0;col<4;col++){
@@ -137,8 +145,12 @@ public class App2048 extends VBox{
         p1.setScore(0);
         actualScore.setText(Integer.toString(p1.getScore()));
     }//restart
-    
-    public boolean isFull(){
+
+    /**
+     * Private method to check if the game board is full.
+     * @return true if the board is full; false otherwise.
+     */
+    private boolean isFull(){
         boolean isFull = true;
         for(int row = 0; row < 4 && isFull; row++){
             for(int col = 0; col < 4 && isFull; col++){
@@ -148,15 +160,21 @@ public class App2048 extends VBox{
             }//for
         }//for
         return isFull;
-    }// isFull 
+    }//isFull 
 
+    /**
+     * Private method to check when the game is over and displays the lost message.
+     */
     private void gameOver(){
         if(!canSlideH() && !canSlideV() && isFull()){
             displayLoss();
         }//if
     }//gameOver
-    
-    public void genRandPos(){
+
+    /**
+     * Private method to generate a random 2 or 4 Tile onto the board.
+     */ 
+    private void genRandPos(){
         boolean generated=false;
 
         while(!generated && !isFull()){
@@ -175,20 +193,36 @@ public class App2048 extends VBox{
                 }//else
             }//if
         }//while
-    }// getRandPos
-    
+    }//getRandPos
+
+    /**
+     * Private method to swap a Tile with another horizontally.
+     * @param row the row where the swap will happen.
+     * @param first the first Tile's index.
+     * @param sec the second Tile's index.
+     */
     private void swapH(int row,int first, int sec){
         Tile copy = new Tile(board[row][first].getValue());
         board[row][first].setValue(board[row][sec].getValue());
         board[row][sec].setValue(copy.getValue());
     }//swapH
 
+    /**
+     * Private method to swap a Tile with another vertically.
+     * @param col the column where the swap will happen.
+     * @param first the first Tile's index.
+     * @param sec the second Tile's index.
+     */
     private void swapV(int col, int first, int sec){
         Tile copy = new Tile(board[first][col].getValue());
         board[first][col].setValue(board[sec][col].getValue());
         board[sec][col].setValue(copy.getValue());
     }//swapV
-
+   
+    /**
+     * Private method that checks to see if any Tile can still slide Horizontally.
+     * @return true if Tiles can still slide; false otherwise.
+     */
     private boolean canSlideH(){
         boolean canSlide = false;
         for(int row=0; row<3 && !canSlide; row++){
@@ -200,7 +234,11 @@ public class App2048 extends VBox{
         }//for
         return canSlide;   
     }//canSlideH
-    
+
+    /**
+     * Private method that checks to see if any Tile can still slide Vertically.
+     * @return true if Tiles can still slide; false otherwise.
+     */
     private boolean canSlideV(){
         boolean canSlide = false;
         for(int row=0; row<4 && !canSlide; row++){
@@ -212,10 +250,13 @@ public class App2048 extends VBox{
         }//for
         return canSlide;
     }//canSlideV
-    
+
+    /**
+     * Method to slide all the tiles up and generates a new Tile after each slide.
+     * Checks to see if the game can continue after each move.
+     */
     public void slideUp(){
         Tile[][] copy = board;
-        boolean canSlide = false;
         
         //Slide Up
         for (int col=0;col<4;col++){
@@ -226,8 +267,12 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideUp
-    
-    public void slideColUp(int col){
+
+    /**
+     * Private method to slide a specific column up.
+     * @param col the specified column to move up.
+     */
+    private void slideColUp(int col){
         for (int i=0;i<3;i++){
             for (int row=0;row<3;row++){
                 if (board[row][col].getValue()==0 && board[row+1][col].getValue()>0){
@@ -237,7 +282,11 @@ public class App2048 extends VBox{
         }//for
     }//slideColUp
 
-    public void combineUp(int col){
+    /**
+     * Private method to combine elements in a specified column upwards.
+     * @param col the specified column to combine upwards.
+     */
+    private void combineUp(int col){
         for (int row=0;row<3;row++){
             if (board[row][col].getValue() == board[row+1][col].getValue()){
                 board[row][col].setValue(2*board[row+1][col].getValue());
@@ -252,9 +301,12 @@ public class App2048 extends VBox{
         }//for
     }//combineUp
 
+    /**
+     * Method to slide all the tiles down and generate a new Tile after each slide.
+     * Checks to see if the game can continue after each move.
+     */
     public void slideDown(){
         Tile[][] copy = board;
-        boolean canSlide = false;
         
         for (int col=0;col<4;col++){
             this.slideColDown(col);
@@ -264,8 +316,12 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideDown
-    
-    public void slideColDown(int col){
+
+    /**
+     * Private method to slide a specific column down.
+     * @param col the specified column to move down.
+     */
+    private void slideColDown(int col){
         for (int i=0;i<3;i++){
             for (int row=3;row>0;row--){
                 if (board[row][col].getValue()==0 && board[row-1][col].getValue()>0){
@@ -275,7 +331,11 @@ public class App2048 extends VBox{
         }//for
     }//slideColDown
 
-    public void combineDown(int col){
+    /**
+     * Private method to combine elements in a specified column downwards.
+     * @param col the specified column to combine downwards.
+     */     
+    private void combineDown(int col){
         for (int row=3;row>0;row--){
             if (board[row][col].getValue() == board[row-1][col].getValue()){
                 board[row][col].setValue(2*board[row-1][col].getValue());
@@ -290,9 +350,12 @@ public class App2048 extends VBox{
         }//for
     }//combineDown
     
+    /**
+     * Method to slide all the tiles left and generates a new Tile after each slide.
+     * Checks to see if the game can continue after each move.
+     */
     public void slideLeft(){
         Tile[][] copy = board;
-        boolean canSlide = false;
         
         for (int row=0;row<4;row++){
             this.slideRowLeft(row);
@@ -302,8 +365,12 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideLeft
-    
-    public void slideRowLeft(int row){
+
+    /**
+     * Private method to slide a specific row left.
+     * @param row the specified row to move left.
+     */
+    private void slideRowLeft(int row){
         for (int i=0;i<3;i++){
             for (int col=0;col<3;col++){
                 if (board[row][col].getValue()==0 && board[row][col+1].getValue()>0){
@@ -312,7 +379,11 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideRowLeft
-    
+
+    /**
+     * Private method to combine elements in a specified row left.
+     * @param row the specified row to combine left.
+     */     
     private void combineLeft(int row){
         for (int col=0;col<3;col++){
             if (board[row][col].getValue() == board[row][col+1].getValue()){
@@ -327,9 +398,12 @@ public class App2048 extends VBox{
         }//for
     }//combineLeft
     
+    /**
+     * Method to slide all the tiles right and generates a new Tile after each slide.
+     * Checks to see if the game can continue after each move.
+     */
     public void slideRight(){
         Tile[][] copy = board;
-        boolean canSlide = false;
         
         for (int row=0;row<4;row++){
             this.slideRowRight(row);
@@ -339,7 +413,11 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideRight
-    
+
+    /**
+     * Private method to slide a specific row right.
+     * @param row the specified row to move right.
+     */
     private void slideRowRight(int row){
         for (int i=0;i<3;i++){
             for (int col=3;col>0;col--){
@@ -349,7 +427,11 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideRowRight
-    
+
+    /**
+     * Private method to combine elements in a specified row right.
+     * @param row the specified row to combine right.
+     */     
     private void combineRight(int row){
         for (int col=3;col>0;col--){
             if (board[row][col].getValue() == board[row][col-1].getValue()){
@@ -363,4 +445,5 @@ public class App2048 extends VBox{
             }//if
         }//for
     }//combineRight
+    
 }//App2048

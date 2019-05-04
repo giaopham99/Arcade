@@ -3,7 +3,11 @@ package cs1302.arcade;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Tile class to hold the image and value of each {@code Tile} on the 2048 board. 
+ */
 public class Tile{
+    //Constants
     public static final String TILE_0 = "Tiles2048/BlankTile.png";
     public static final String TILE_2 = "Tiles2048/Tile2.png";
     public static final String TILE_4 = "Tiles2048/Tile4.png";
@@ -18,33 +22,56 @@ public class Tile{
     public static final String TILE_2048 = "Tiles2048/Tile2048.png";
     public static final String TILE_4096 = "Tiles2048/Tile4096.png";
     public static final String TILE_8192 = "Tiles2048/Tile8192.png";
-    
+
+    //Properties
     private int value;
     private ImageView imgView;
-    
+
+    /**
+     * Constructs a new Tile based on the value given.
+     * @param value the numeric value of the Tile piece.
+     */
     public Tile(int value){
         imgView = new ImageView();
         imgView.setFitWidth(100);
         imgView.setFitHeight(100);
         this.setValue(value);
     }//Tile
-    
+
+    /**
+     * Method to get the ImageView containing the image in the {@code Tile}.
+     * @return the {@code ImageView} containing the image.
+     */
     public ImageView getImgView(){
         ImageView copy = imgView;
         return copy;
     }// getImgView
-    
+
+    /**
+     * Method to get the numeric value of the {@code Tile}.
+     * @return the numeric value.
+     */
     public int getValue(){
         int temp = value;
         return temp;
     }// getValue
 
+    /**
+     * Method to set the Tile's value to another number.
+     * @param value the new numeric value of the {@code Tile}.
+     */
     public void setValue(int value){
         this.value=value;
         imgView.setImage(new Image(getURL(this.value)));
     }//setValue
 
-    public String getURL(int value){
+    /**
+     * Private method that returns the pathname for the image that represents the
+     * specified value.
+     * @param value the specified value.
+     * @return the pathname of the image.
+     */
+    private String getURL(int value){
         String path = ""; 
         switch(value) {
             case 0: path = TILE_0;
