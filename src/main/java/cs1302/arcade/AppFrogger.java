@@ -36,7 +36,6 @@ public class AppFrogger extends StackPane{
     FroggerItems carYellow = new FroggerItems("cy", 200,40,120,71,false);
     FroggerItems carGreen = new FroggerItems("cg",200,280,120,71,true);
     FroggerItems fly = new FroggerItems("fly",0,0,63,60,true);
-    Rectangle test= new Rectangle(-120,-120,60,60);
 
     FroggerLevels levelGen;
     Timeline slowTL;
@@ -48,7 +47,7 @@ public class AppFrogger extends StackPane{
         levelName = new Text("Level: ");
         lvlNum = new Text("1");
         score = new Text("Score: ");
-        scoreNum = new Text(Integer.toString(p1.getScore()));
+        //scoreNum = new Text(Integer.toString(p1.getScore()));
         levelGen=new FroggerLevels();
         frog.rotateImg(180);
         this.getChildren().add(levelGen.getLevel());
@@ -67,7 +66,7 @@ public class AppFrogger extends StackPane{
         fastThread.start();
         
         Platform.runLater(()-> this.getChildren().add(frog.getImg()));
-        container.getChildren().addAll(levelName, this);
+        //container.getChildren().addAll(levelName, this);
     }//AppFrogger
 
     private void displayWin(){
@@ -207,7 +206,6 @@ public class AppFrogger extends StackPane{
         else {
             System.out.println("Can't go that way");
         }//else
-        snapFrog();
     }//moveDown
 
     public void moveLeft(){
