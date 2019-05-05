@@ -39,6 +39,8 @@ public class AppFrogger extends VBox{
     FroggerLevels levelGen;
     Timeline slowTL;
     Timeline fastTL;
+    Thread slowThread;
+    Thread fastThread;
     HBox scoreBoard;
     Text score;
     Text scoreNum;
@@ -57,12 +59,12 @@ public class AppFrogger extends VBox{
         frog.rotateImg(180);
         gameArea.getChildren().add(levelGen.getLevel());
         setUpScoreBoard();
-        Thread slowThread = new Thread(()->{
+        slowThread = new Thread(()->{
                 slowTL = setUpSlowItems1(log1,log2);
                 
         });
         
-        Thread fastThread = new Thread(()->{
+        fastThread = new Thread(()->{
         fastTL = setUpFastItems1(truck1);
                 });
         slowThread.setDaemon(true);
