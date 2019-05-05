@@ -13,8 +13,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 
-//might have to import event handler
-
+/**
+ *Class used to create a utility bar for our arcade app. Has functions to display controls 
+ *and exit the arcade
+ */ 
 public class UtilityBar extends MenuBar{
 
     MenuItem exitArcade;
@@ -22,14 +24,15 @@ public class UtilityBar extends MenuBar{
     MenuItem controls;
     Menu file;
     Menu help;
-    private final String RULES_TETRIS = "Controls- \n\n" +
-            "LEFT ARROW KEY: Moves the block left one space. \n" +
-            "RIGHT ARROW KEY: Moves the block right one space. \n" +
-            "DOWN ARROW KEY: Slams the block down." +
-            "SPACE BAR: Rotates block. \n \n \n" +
+    
+    private final String RULES_FROGGER = "Controls- \n\n" +
+            "LEFT ARROW KEY: Moves the frog left one space. \n" +
+            "RIGHT ARROW KEY: Moves the frog right one space. \n" +
+            "DOWN ARROW KEY: Moves the frog down one space." +
+            "UP ARROW: Moves the frog up one space. \n \n \n" +
             "How To Play- \n" +
-            "Fill an entire row with blocks to increase \n score and clear the row. " +
-            "If the blocks exceed the maximum height of the play area,\n the game is over.";
+            "Get the frog from the starting position to a lily pad" +
+            "without getting hit by a vehicle or jumping into the water";
 
     private final String RULES_2048 = "Controls- \n \n" +
             "LEFT ARROW KEY: Slides all Tiles to the left. \n" +
@@ -39,7 +42,11 @@ public class UtilityBar extends MenuBar{
             "How To Play- \n \n"+
             "Combine tiles with the same numeric values to reach 2048. \n"+
             "After reaching the Tile 2048, you may choose to continue to reach 8192.";
-    
+
+    /**
+     *The default constructor for the utility bar used in the application
+     *Provides a file option and a help option
+     */
     public UtilityBar(){
         super();
         file = new Menu("File");
@@ -60,20 +67,24 @@ public class UtilityBar extends MenuBar{
         this.getMenus().addAll(file, help);
     }//UtilityBar
 
+    /**
+     *Method that creates a tab pane to display the controls when selected
+     *from the help menu
+     */
     private void controlScreen(){
         Button close1 = new Button("Close");
         Button close2 = new Button("Close");
-        VBox pageTetris = new VBox();
-        pageTetris.getChildren().addAll(new Text(RULES_TETRIS), close1);
+        VBox pageFrogger = new VBox();
+        pageFrogger.getChildren().addAll(new Text(RULES_FROGGER), close1);
         VBox page2048 = new VBox();
         page2048.getChildren().addAll(new Text(RULES_2048), close2);
         
         TabPane pane = new TabPane();
-        Tab tabTetris = new Tab("Tetris Rules",pageTetris);
+        Tab tabFrogger = new Tab("Frogger Rules",pageFrogger);
         Tab tab2048 = new Tab("2048 Rules", page2048);
 
         pane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-        pane.getTabs().addAll(tabTetris, tab2048);
+        pane.getTabs().addAll(tabFrogger, tab2048);
    
         //Create Stage and Scene
         Scene scene = new Scene(pane);
