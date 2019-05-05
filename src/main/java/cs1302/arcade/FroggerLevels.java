@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
+/**
+ *This class is used for creating the levels for {@code AppFrogger}.
+ *It uses an array to store the {@code ImageView} objects that are 
+ *then used to fill in a {@code TilePane} to represent each level.
+ */
 public class FroggerLevels{
 
     static final Image WATER=new Image("FroggerDesign/Water.png");
@@ -16,7 +21,13 @@ public class FroggerLevels{
     TilePane level;
     int lvl;
     ImageView[][] boardView;
-    
+
+    /**
+     *The default constructor for {@code FroggerLevels}.
+     *It creates an {@code TilePane} with no images,
+     *then calls {@code genLevel1} to fill out the 
+     *board with the correct images. 
+     */
     public FroggerLevels(){
         lvl =1;
         boardView = new ImageView[10][6];
@@ -32,19 +43,33 @@ public class FroggerLevels{
         genLevel1();
     }//FroggerLevels
 
+    /**
+     *
+     */
     public int getProgress(){
         int temp = lvl;
         return temp;
     }//getProgress
 
+    /**
+     *
+     */
     public void setProgress(int lvl){
         this.lvl = lvl;
     }//setProgress
-    
+
+    /**
+     *Getter method for the board
+     *@returns level, a {@code TilePane} representing the level
+     */
     public TilePane getLevel(){
         return level;
     }//getLevel
-    
+
+    /**
+     *Changes each {@code ImageView} in {@code boardView}
+     *to the corresponding {@code ImageView} for level 1
+     */
     protected void genLevel1(){
         for (int i=0;i<10;i++){
             if (i==0){
@@ -69,6 +94,10 @@ public class FroggerLevels{
         }//for
     }//genLevel1
 
+    /**
+     *Changes each {@code ImageView} in {@code boardView}
+     *to the corresponding {@code ImageView} for level 2
+     */
     protected void genLevel2(){
         for (int i=0;i<10;i++){
             if (i==0){
@@ -93,6 +122,10 @@ public class FroggerLevels{
         }//for
     }//genLevel2
 
+    /**
+     *Changes each {@code ImageView} in {@code boardView}
+     *to the corresponding {@code ImageView} for level 3
+     */
     protected void genLevel3(){
         for (int i=0;i<10;i++){
             if (i==0){
@@ -117,19 +150,37 @@ public class FroggerLevels{
         }//for
     }//genLevel3
 
-    protected void grassRow(int row){
+    /**
+     *Changes an entire row in {@code boardView}
+     *to a grass {@code ImageView}
+     *
+     *@param row, the row in the {@code boardView} to set to grass
+     */
+    private void grassRow(int row){
         for (int i=0;i<6;i++){
             boardView[row][i].setImage(GRASS);
         }//for
     }//grassRow
 
-    protected void waterRow(int row){
+    /**
+     *Changes an entire row in {@code boardView}
+     *to a water {@code ImageView}
+     *
+     *@param row, the row in the {@code boardView} to set to water
+     */
+    private void waterRow(int row){
         for (int i=0;i<6;i++){
             boardView[row][i].setImage(WATER);
         }//for
     }//waterRow
 
-    protected void roadRow(int row){
+    /**
+     *Changes an entire row in {@code boardView}
+     *to a road {@code ImageView}
+     *
+     @param row, the row in the {@code boardView} to set to road
+     */
+    private void roadRow(int row){
         for (int i=0;i<6;i++){
             boardView[row][i].setImage(ROAD);
         }//for
