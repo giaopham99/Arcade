@@ -25,16 +25,16 @@ public class UtilityBar extends MenuBar{
     Menu file;
     Menu help;
     
-    private final String RULES_FROGGER = "Controls- \n\n" +
+    public static final String RULES_FROGGER = "Controls- \n\n" +
             "LEFT ARROW KEY: Moves the frog left one space. \n" +
             "RIGHT ARROW KEY: Moves the frog right one space. \n" +
-            "DOWN ARROW KEY: Moves the frog down one space." +
+            "DOWN ARROW KEY: Moves the frog down one space. \n" +
             "UP ARROW: Moves the frog up one space. \n \n \n" +
             "How To Play- \n" +
-            "Get the frog from the starting position to a lily pad" +
-            "without getting hit by a vehicle or jumping into the water";
+            "Get the frog from the starting position to a lily pad " +
+            "without getting \n hit by a vehicle or jumping into the water.";
 
-    private final String RULES_2048 = "Controls- \n \n" +
+    public static final String RULES_2048 = "Controls- \n \n" +
             "LEFT ARROW KEY: Slides all Tiles to the left. \n" +
             "RIGHT ARROW KEY: Slides all Tiles to the right. \n" +
             "DOWN ARROW KEY: Slides all Tiles down. \n"+
@@ -52,16 +52,13 @@ public class UtilityBar extends MenuBar{
         file = new Menu("File");
         help = new Menu("Help");
         exitArcade=new MenuItem("Exit Arcade");
-        exitGame=new MenuItem("Exit Game");
         controls=new MenuItem("Controls");
 
         //set actions for menuItems
         exitArcade.setOnAction(e -> System.exit(0));
-        exitGame.setOnAction(e -> System.exit(0)); //Leaves game but not arcade
         controls.setOnAction(e -> controlScreen());
-
         
-        file.getItems().addAll(exitArcade, exitGame);
+        file.getItems().addAll(exitArcade);
         help.getItems().addAll(controls);
         
         this.getMenus().addAll(file, help);
@@ -85,19 +82,18 @@ public class UtilityBar extends MenuBar{
 
         pane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         pane.getTabs().addAll(tabFrogger, tab2048);
-   
+            
         //Create Stage and Scene
         Scene scene = new Scene(pane);
         Stage helpWindow = new Stage();
         helpWindow.setScene(scene);
-
+        helpWindow.setResizable(false);
+        helpWindow.sizeToScene();
         close1.setOnAction(e -> helpWindow.close());
         close2.setOnAction(e -> helpWindow.close());
         
         helpWindow.initModality(Modality.APPLICATION_MODAL);
         helpWindow.setTitle("How To Play");
-        helpWindow.setMinWidth(300);
-        helpWindow.setMinHeight(400);
         helpWindow.show();
     } // controlScreen()
     

@@ -51,6 +51,7 @@ public class AppFrogger extends VBox{
      */
     public AppFrogger(){
         super();
+        p1 = new Player();
         gameArea = new StackPane();
         levelGen=new FroggerLevels();
         frog.rotateImg(180);
@@ -58,6 +59,7 @@ public class AppFrogger extends VBox{
         setUpScoreBoard();
         Thread slowThread = new Thread(()->{
                 slowTL = setUpSlowItems1(log1,log2);
+                
         });
         
         Thread fastThread = new Thread(()->{
@@ -72,6 +74,9 @@ public class AppFrogger extends VBox{
         Platform.runLater(()-> gameArea.getChildren().add(frog.getImg()));
     }//AppFrogger
 
+    /**
+     * Private method that sets up the ScoreBoard with the score, level, and game area.
+     */
     private void setUpScoreBoard(){
         scoreBoard = new HBox(10);
         score = new Text("Score: ");
@@ -138,7 +143,7 @@ public class AppFrogger extends VBox{
 
     /**
      *Helper method to restart the game if a player wishes to play again.
-     *Resets differently depending on what level it was when a restart was needed  
+     *Resets differently depending on what level it was when a restart was needed.  
      */
     private void resetGame(){
         levelGen.genLevel1();
@@ -165,6 +170,9 @@ public class AppFrogger extends VBox{
             fastTL.play();
         }//else
         level = 1;
+        p1.setScore(0);
+        scoreNum.setText(Integer.toString(p1.getScore()));
+        levelNum.setText(Integer.toString(level));
     }//resetGame
 
     /**
@@ -216,6 +224,8 @@ public class AppFrogger extends VBox{
             System.out.println("Can't go that way");
         }//else
         snapFrog();
+        p1.addScore(10);
+        scoreNum.setText(Integer.toString(p1.getScore()));
     }//moveUp
 
     /**
@@ -241,6 +251,9 @@ public class AppFrogger extends VBox{
         else {
             System.out.println("Can't go that way");
         }//else
+        snapFrog();
+        p1.addScore(10);
+        scoreNum.setText(Integer.toString(p1.getScore()));
     }//moveDown
 
     /**
@@ -266,6 +279,8 @@ public class AppFrogger extends VBox{
         else {
             System.out.println("CAn't go that way");
         }//else
+        p1.addScore(10);
+        scoreNum.setText(Integer.toString(p1.getScore()));
     }//moveLeft
 
     /**
@@ -291,6 +306,8 @@ public class AppFrogger extends VBox{
         else {
             System.out.println("Can't go that way");
         }//else
+        p1.addScore(10);
+        scoreNum.setText(Integer.toString(p1.getScore()));
     }//moveRight
 
     /**
@@ -309,6 +326,7 @@ public class AppFrogger extends VBox{
                 frog.setX(-40);
                 frog.setY(360);
                 level++;
+                levelNum.setText(Integer.toString(level));
             }//if
             else{
                 displayLoss();
@@ -335,6 +353,7 @@ public class AppFrogger extends VBox{
                 frog.setX(-40);
                 frog.setY(360);
                 level++;
+                levelNum.setText(Integer.toString(level));
             }//if
             else{
                 displayLoss();

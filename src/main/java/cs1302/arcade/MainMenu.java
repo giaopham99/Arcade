@@ -30,7 +30,43 @@ public class MainMenu extends VBox{
         stack=new StackPane();
         setFrogAnd2048();
         //Frogger Button
-        buttonFrogger.setOnAction(e-> {
+        buttonFrogger.setOnAction(e->buildRulesFrog());
+        
+        //2048 Button
+        button2048.setOnAction(e->buildRules2048());
+        
+        //Background
+        background=new ImageView(new Image("MenuImages/Background.jpg"));
+        setUpLayout();
+        this.getChildren().addAll(new UtilityBar(), stack);
+    }//MainMenu
+
+    private void buildRules2048(){
+        VBox rules = new VBox();
+        rules.getChildren().add(new Text(UtilityBar.RULES_2048));
+        Scene rulesScene = new Scene(rules);
+        Stage rulesStage = new Stage();
+        rulesStage.setScene(rulesScene);
+        rulesStage.setOnCloseRequest(e->{
+                App2048 app2048 = new App2048();
+                Scene scene = new Scene(app2048);
+                control2048(scene, app2048);
+                Stage stage = new Stage();
+                makeStage(stage,scene,"2048!");
+            });
+        rulesStage.sizeToScene();
+        rulesStage.setResizable(false);
+        rulesStage.initModality(Modality.APPLICATION_MODAL);
+        rulesStage.show();
+    }//buildRules2048
+    
+    private void buildRulesFrog(){
+        VBox rules = new VBox();
+        rules.getChildren().add(new Text(UtilityBar.RULES_FROGGER));
+        Scene rulesScene = new Scene(rules);
+        Stage rulesStage = new Stage();
+        rulesStage.setScene(rulesScene);
+        rulesStage.setOnCloseRequest(e->{
                 AppFrogger appFrog=new AppFrogger();
                 Scene scene = new Scene(appFrog);
                 Thread t = new Thread(()->controlFrogger(scene,appFrog));
@@ -40,23 +76,13 @@ public class MainMenu extends VBox{
                 makeStage(stage,scene,"Frogger!");
                 stage.setOnCloseRequest(y->appFrog.stopTL());
                 stage.show();
-            });//setOnAction
-        
-        //2048 Button
-        button2048.setOnAction(e-> {
-                App2048 app2048 = new App2048();
-                Scene scene = new Scene(app2048);
-                control2048(scene, app2048);
-                Stage stage = new Stage();
-                makeStage(stage,scene,"2048!");
             });
-        
-        //Background
-        background=new ImageView(new Image("MenuImages/Background.jpg"));
-        setUpLayout();
-        this.getChildren().addAll(new UtilityBar(), stack);
-    }//MainMenu
-
+        rulesStage.sizeToScene();
+        rulesStage.setResizable(false);
+        rulesStage.initModality(Modality.APPLICATION_MODAL);
+        rulesStage.show();
+    }//buildRulesFrog
+    
     private void control2048(Scene scene, App2048 app2048){
         scene.setOnKeyPressed(x-> {
                 switch(x.getCode()) {
