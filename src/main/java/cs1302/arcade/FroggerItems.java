@@ -36,15 +36,13 @@ public class FroggerItems{
      *@param y, the starting y position of the item
      *@param width, the width of the item's hitbox
      *@param height, the height of the item's hitbox
-     *@param visible, whether or not the item is visible
      */
-    public FroggerItems(String item, int x, int y,int width,int height, boolean visible){
+    public FroggerItems(String item, int x, int y,int width,int height){
         this.item = new ImageView(itemChoice(item));
         this.x =x;
         this.y =y;
         this.item.setTranslateX(x);
         this.item.setTranslateY(y);
-        this.visible = visible;
         hitBox = new Rectangle(this.x,this.y,width,height);
     }//FroggerItems
 
@@ -52,7 +50,7 @@ public class FroggerItems{
      *Helper method used to get the image corresponding to a {@code FroggerItems} object
      *
      *@param item, the name of the item 
-     *@returns temp, the image corresponding to the item's name  
+     *@return temp, the image corresponding to the item's name  
      */
     private Image itemChoice(String item){
         Image temp = FROG;
@@ -95,13 +93,13 @@ public class FroggerItems{
     public void addX(int move){
         x += move;
         item.setTranslateX(x);
-        hitBox.setLocation(this.x-27,this.y);
+        hitBox.setLocation(this.x,this.y);
     }//addX
 
     /**
      *Getter method for the x position of the {@code FroggerItems} object
      *
-     *@returns temp, the current x position of the item
+     *@return temp, the current x position of the item
      */
     public int getX(){
         int temp = x;
@@ -132,7 +130,7 @@ public class FroggerItems{
     /**
      *Getter method for the y position of the {@code FroggerItems} object
      *
-     *@returns temp, the current y position of the item
+     *@return temp, the current y position of the item
      */
     public int getY(){
         int temp = y;
@@ -156,7 +154,7 @@ public class FroggerItems{
     /**
      *Getter method for the image of the {@code FroggerItems} object
      *
-     *@returns item, the image of the item
+     *@return item, the image of the item
      */
     public ImageView getImg(){
         return item;
@@ -165,7 +163,7 @@ public class FroggerItems{
     /**
      *Getter method for the {@code hitBox} of the {@code FroggerItems} object
      *
-     *@returns hitBox, the rectangle for the item used in collision detection
+     *@return hitBox, the rectangle for the item used in collision detection
      */
     public Rectangle getRect(){
         return hitBox;
@@ -189,19 +187,4 @@ public class FroggerItems{
        this.item.setImage(itemChoice(image));
     }//setImg
 
-    /**
-     *
-     */
-    public void setVisibility(boolean visible){
-        this.visible = visible;
-    }//setVisibility
-
-    /**
-     *
-     */
-    public boolean getVisibility(){
-        boolean temp = visible;
-        return temp;
-    }//getVisibility
-    
 }//FroggerItems

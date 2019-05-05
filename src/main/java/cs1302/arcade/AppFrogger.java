@@ -31,15 +31,14 @@ public class AppFrogger extends StackPane{
     Text score;
     Text scoreNum;
     
-    FroggerItems frog = new FroggerItems("frog",-40,360,60,60,true);
-    FroggerItems log1 = new FroggerItems("log", -280,-120,120,60,true);
-    FroggerItems log2 = new FroggerItems("log",100,-120,120,60,true);
-    FroggerItems truck1 = new FroggerItems("truck", -200,200,150,71,true);
-    FroggerItems truck2 = new FroggerItems("truck", -200,280,150,71,true);
-    FroggerItems carBlue = new FroggerItems("cb", -100,40,120,71,false);
-    FroggerItems carYellow = new FroggerItems("cy", 200,40,120,71,false);
-    FroggerItems carGreen = new FroggerItems("cg",200,280,120,71,true);
-    FroggerItems fly = new FroggerItems("fly",0,0,63,60,true);
+    FroggerItems frog = new FroggerItems("frog",-40,360,60,60);
+    FroggerItems log1 = new FroggerItems("log", -280,-120,120,60);
+    FroggerItems log2 = new FroggerItems("log",100,-120,120,60);
+    FroggerItems truck1 = new FroggerItems("truck", -200,200,150,71);
+    FroggerItems truck2 = new FroggerItems("truck", -200,280,150,71);
+    FroggerItems carBlue = new FroggerItems("cb", -100,40,120,71);
+    FroggerItems carYellow = new FroggerItems("cy", 200,40,120,71);
+    FroggerItems carGreen = new FroggerItems("cg",200,280,120,71);
 
     FroggerLevels levelGen;
     Timeline slowTL;
@@ -62,16 +61,17 @@ public class AppFrogger extends StackPane{
 
         Thread slowThread = new Thread(()->{
                 slowTL = setUpSlowItems1(log1,log2);
-        });
-        
-        Thread fastThread = new Thread(()->{
                 fastTL = setUpFastItems1(truck1);
         });
+        
+        //Thread fastThread = new Thread(()->{
+        //fastTL = setUpFastItems1(truck1);
+                //});
         slowThread.setDaemon(true);
         slowThread.start();
         
-        fastThread.setDaemon(true);
-        fastThread.start();
+        //fastThread.setDaemon(true);
+        //fastThread.start();
         
         Platform.runLater(()-> this.getChildren().add(frog.getImg()));
         //container.getChildren().addAll(levelName, this);
@@ -366,7 +366,7 @@ public class AppFrogger extends StackPane{
      *
      *@param log1, a log from level 1
      *@param log2, a log from level 1
-     *@returns timeline, the {@code Timeline} for the slow item animation  
+     *@return timeline, the {@code Timeline} for the slow item animation  
      */
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
         this.getChildren().addAll(log1.getImg(), log2.getImg());
@@ -390,7 +390,7 @@ public class AppFrogger extends StackPane{
      *Sets up the animations for fast items on level 1
      *
      *@param truck, a truck from level 1
-     *@returns timeline, the {@code Timeline} for the fast item animation
+     *@return timeline, the {@code Timeline} for the fast item animation
      */
     private Timeline setUpFastItems1(FroggerItems truck){
         this.getChildren().add(truck.getImg());
@@ -415,7 +415,7 @@ public class AppFrogger extends StackPane{
      *@param log1, a log from level 2
      *@param log2, a log from level 2
      *@param truck, a truck from level 2
-     *@returns timeline, the {@code Timeline} for the slow item animation
+     *@return timeline, the {@code Timeline} for the slow item animation
      */
     private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2, FroggerItems truck){
         EventHandler<ActionEvent> handler = event -> {
@@ -440,7 +440,7 @@ public class AppFrogger extends StackPane{
      *
      *@param cb, the blue car from level 2
      *@param cy, the yellow car from level 2
-     *@returns timeline, the {@code Timeline} for the fast item animation
+     *@return timeline, the {@code Timeline} for the fast item animation
      */
     private Timeline setUpFastItems2(FroggerItems cb, FroggerItems cy){
         this.getChildren().addAll(cb.getImg(), cy.getImg());
@@ -467,7 +467,7 @@ public class AppFrogger extends StackPane{
      *@param cy, the yellow car from level 3
      *@param cg, the green car from level 3
      *@param truck, a truck from level 3
-     *@returns timeline, the {@code Timeline} for the slow item animation
+     *@return timeline, the {@code Timeline} for the slow item animation
      */
     private Timeline setUpSlowItems3(FroggerItems cb, FroggerItems cy,
                                      FroggerItems cg, FroggerItems truck){
@@ -496,7 +496,7 @@ public class AppFrogger extends StackPane{
      *@param log1, a log from level 3
      *@param log2, a log from level 3
      *@param truck, a truck from level 3
-     *@returns timeline, the {@code Timeline} for the fast item animation
+     *@return timeline, the {@code Timeline} for the fast item animation
      */
     private Timeline setUpFastItems3(FroggerItems log1, FroggerItems log2, FroggerItems truck){
         log1.setY(-200);
@@ -544,7 +544,7 @@ public class AppFrogger extends StackPane{
      *Helper method used to check if the frog is on top of a log
      *
      *@param logs, the logs used to check for collisions
-     *@returns true if the frog is on top of a log, false otherwise  
+     *@return true if the frog is on top of a log, false otherwise  
      */
     private boolean collisionCheckLogs(FroggerItems...logs){
         for(FroggerItems l:logs){
@@ -564,7 +564,7 @@ public class AppFrogger extends StackPane{
      *Helper method to check if the frog was hit by a vehicle
      *
      *@param vehicles, the vehicles used to check for collisions
-     *@returns true if the frog was hit by a vehicle, false otherwise
+     *@return true if the frog was hit by a vehicle, false otherwise
      */
     private boolean collisionCheckVeh(FroggerItems...vehicles){
         for(FroggerItems v:vehicles){

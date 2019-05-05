@@ -19,7 +19,6 @@ public class FroggerLevels{
     static final Image LILY=new Image("FroggerDesign/Lily.png");
 
     TilePane level;
-    int lvl;
     ImageView[][] boardView;
 
     /**
@@ -44,23 +43,8 @@ public class FroggerLevels{
     }//FroggerLevels
 
     /**
-     *
-     */
-    public int getProgress(){
-        int temp = lvl;
-        return temp;
-    }//getProgress
-
-    /**
-     *
-     */
-    public void setProgress(int lvl){
-        this.lvl = lvl;
-    }//setProgress
-
-    /**
      *Getter method for the board
-     *@returns level, a {@code TilePane} representing the level
+     *@return level, a {@code TilePane} representing the level
      */
     public TilePane getLevel(){
         return level;
