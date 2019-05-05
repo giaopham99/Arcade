@@ -17,6 +17,10 @@ import javafx.util.Duration;
 import javafx.application.Platform;
 import java.awt.Rectangle;
 
+/**
+ *This class represents a game of Frogger. It uses several other classes
+ *and their functionalities to set up and play a game of frogger.
+ */
 public class AppFrogger extends StackPane{
      
     Player p1;
@@ -40,7 +44,11 @@ public class AppFrogger extends StackPane{
     FroggerLevels levelGen;
     Timeline slowTL;
     Timeline fastTL;
-    
+
+    /**
+     *Default constructor for {@code AppFrogger}. It sets up
+     *a game of frogger starting with level 1. 
+     */
     public AppFrogger(){
         super();
         container = new VBox();
@@ -69,6 +77,9 @@ public class AppFrogger extends StackPane{
         //container.getChildren().addAll(levelName, this);
     }//AppFrogger
 
+    /**
+     *Sets up a window to display when the player has won
+     */
     private void displayWin(){
         VBox root=new VBox();
         HBox buttons=new HBox();
@@ -93,6 +104,9 @@ public class AppFrogger extends StackPane{
             });
     }//displayWin
 
+    /**
+     *Sets up a window to display when the player has lost
+     */
     private void displayLoss(){
         VBox root=new VBox();
         HBox buttons=new HBox();
@@ -117,7 +131,11 @@ public class AppFrogger extends StackPane{
             });
     }//displayLoss
 
-    public void resetGame(){
+    /**
+     *Helper method to restart the game if a player wishes to play again.
+     *Resets differently depending on what level it was when a restart was needed  
+     */
+    private void resetGame(){
         levelGen.genLevel1();
         frog.setXY(-40,360);
         frog.rotateImg(180);
@@ -144,6 +162,10 @@ public class AppFrogger extends StackPane{
         level = 1;
     }//resetGame
 
+    /**
+     *Helper method to snap the frog to the middle of a tile when 
+     *coming off of a log  
+     */
     private void snapFrog(){
         if(frog.getX()>-200 && frog.getX()<-120){
             frog.setX(-200);
@@ -164,7 +186,11 @@ public class AppFrogger extends StackPane{
             frog.setX(200);
         }//else
     }//snapFrog
-    
+
+    /**
+     *Method that controls the movement of the frog
+     *when moving up
+     */
     public void moveUp(){
         if (frog.getY()!=-360){
             frog.addY(-80);
@@ -187,6 +213,10 @@ public class AppFrogger extends StackPane{
         snapFrog();
     }//moveUp
 
+    /**
+     *Method that controls the movement of the frog
+     *when moving down
+     */
     public void moveDown(){
         if (frog.getY()!=360){
             frog.addY(80);
@@ -208,6 +238,10 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveDown
 
+    /**
+     *Method that controls the movement of the frog
+     *when moving left
+     */
     public void moveLeft(){
         if (frog.getX()!=-200){
             frog.addX(-80);
@@ -229,6 +263,10 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveLeft
 
+    /**
+     *Method that controls the movement of the frog
+     *when moving right
+     */
     public void moveRight(){
         if (frog.getX()!=200){
             frog.addX(80);
@@ -250,6 +288,11 @@ public class AppFrogger extends StackPane{
         }//else
     }//moveRight
 
+    /**
+     *Method to check whether or not the player has won or lost level 1
+     *Checks if the frog is on a lily pad, or if it has jumped into
+     *the water without being on a log 
+     */
     private void checkLevel1(){
         if(frog.getY()== -360){
             if(frog.getX()== -120
@@ -272,6 +315,11 @@ public class AppFrogger extends StackPane{
         }//else if
     }//checkLevel1
 
+    /**
+     *Method to check whether or not the player has won or lost level 2
+     *Checks if the frog is on a lily pad, or if it has jumped into
+     *the water without being on a log
+     */
     private void checkLevel2(){
         if(frog.getY()== -360){
             if(frog.getX()== -120
@@ -293,6 +341,11 @@ public class AppFrogger extends StackPane{
         }//else if
     }//checkLevel2
 
+    /**
+     *Method to check whether or not the player has won or lost level 3
+     *Checks if the frog is on a lily pad, or if it has jumped into
+     *the water without being on a log
+     */
     private void checkLevel3(){
         if(frog.getY()== -360){
             if(frog.getX()== -40){
@@ -302,12 +355,19 @@ public class AppFrogger extends StackPane{
                 displayLoss();
             }//else
         }//if
-        else if (frog.getY()==-200 || frog.getY()==-40){
+        else if ((frog.getY()==-200 || frog.getY()==-40) && !collisionCheckLogs(log1,log2) ){
             stopTL();
             displayLoss();
         }//else if
     }//checkLevel3
-    
+
+    /**
+     *Sets up the animations for slow items on level 1
+     *
+     *@param log1, a log from level 1
+     *@param log2, a log from level 1
+     *@returns timeline, the {@code Timeline} for the slow item animation  
+     */
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
         this.getChildren().addAll(log1.getImg(), log2.getImg());
         
@@ -326,7 +386,12 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpSlowItems1
 
-    
+    /**
+     *Sets up the animations for fast items on level 1
+     *
+     *@param truck, a truck from level 1
+     *@returns timeline, the {@code Timeline} for the fast item animation
+     */
     private Timeline setUpFastItems1(FroggerItems truck){
         this.getChildren().add(truck.getImg());
         
@@ -344,6 +409,14 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpFastItems1
 
+    /**
+     *Sets up the animations for slow items on level 2
+     *
+     *@param log1, a log from level 2
+     *@param log2, a log from level 2
+     *@param truck, a truck from level 2
+     *@returns timeline, the {@code Timeline} for the slow item animation
+     */
     private Timeline setUpSlowItems2(FroggerItems log1, FroggerItems log2, FroggerItems truck){
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(log1);
@@ -362,6 +435,13 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpSlowItems2
 
+    /**
+     *Sets up the animations for fast items on level 2
+     *
+     *@param cb, the blue car from level 2
+     *@param cy, the yellow car from level 2
+     *@returns timeline, the {@code Timeline} for the fast item animation
+     */
     private Timeline setUpFastItems2(FroggerItems cb, FroggerItems cy){
         this.getChildren().addAll(cb.getImg(), cy.getImg());
         
@@ -380,6 +460,15 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpFastItems2
 
+    /**
+     *Sets up the animations for slow items on level 3
+     *
+     *@param cb, the blue car from level 3
+     *@param cy, the yellow car from level 3
+     *@param cg, the green car from level 3
+     *@param truck, a truck from level 3
+     *@returns timeline, the {@code Timeline} for the slow item animation
+     */
     private Timeline setUpSlowItems3(FroggerItems cb, FroggerItems cy,
                                      FroggerItems cg, FroggerItems truck){
         this.getChildren().addAll(cg.getImg(), truck.getImg());
@@ -401,6 +490,14 @@ public class AppFrogger extends StackPane{
         return timeline;
     }//setUpSlowItems3
 
+    /**
+     *Sets up the animations for fast items on level 3
+     *
+     *@param log1, a log from level 3
+     *@param log2, a log from level 3
+     *@param truck, a truck from level 3
+     *@returns timeline, the {@code Timeline} for the fast item animation
+     */
     private Timeline setUpFastItems3(FroggerItems log1, FroggerItems log2, FroggerItems truck){
         log1.setY(-200);
         log2.setY(-40);
@@ -420,7 +517,11 @@ public class AppFrogger extends StackPane{
 
         return timeline;
     }//setUpFastItems3
-    
+
+    /**
+     *Helper method to create a handler that controls 
+     *the movement of hazards in the game of frogger
+     */
     private void makeHandler(FroggerItems item){
             if (item.getX()==320){
                 item.setX(-280);
@@ -430,11 +531,21 @@ public class AppFrogger extends StackPane{
             }//else
     }//makeHandler
 
-    public void stopTL(){
+    /**
+     *Helper method used to stop both the slow and fast
+     *animation timelines
+     */
+    protected void stopTL(){
         fastTL.stop();
         slowTL.stop();
     }//stopTL
 
+    /**
+     *Helper method used to check if the frog is on top of a log
+     *
+     *@param logs, the logs used to check for collisions
+     *@returns true if the frog is on top of a log, false otherwise  
+     */
     private boolean collisionCheckLogs(FroggerItems...logs){
         for(FroggerItems l:logs){
             if(frog.getRect().intersects(l.getRect())){
@@ -449,13 +560,21 @@ public class AppFrogger extends StackPane{
         return false;
     }//collisionCheckLogs
 
+    /**
+     *Helper method to check if the frog was hit by a vehicle
+     *
+     *@param vehicles, the vehicles used to check for collisions
+     *@returns true if the frog was hit by a vehicle, false otherwise
+     */
     private boolean collisionCheckVeh(FroggerItems...vehicles){
         for(FroggerItems v:vehicles){
             if(frog.getRect().intersects(v.getRect())){
                 stopTL();
                 displayLoss();
+                return true;
             }//if
         }//for
-        return true;
+        return false;
     }//collisionCheckVeh
+    
 }//AppFrogger
