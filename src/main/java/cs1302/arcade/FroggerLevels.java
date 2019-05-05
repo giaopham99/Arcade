@@ -28,7 +28,6 @@ public class FroggerLevels{
      *board with the correct images. 
      */
     public FroggerLevels(){
-        lvl =1;
         boardView = new ImageView[10][6];
         level = new TilePane();
         level.setPrefColumns(6);

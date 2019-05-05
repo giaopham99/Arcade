@@ -21,15 +21,10 @@ import java.awt.Rectangle;
  *This class represents a game of Frogger. It uses several other classes
  *and their functionalities to set up and play a game of frogger.
  */
-public class AppFrogger extends StackPane{
+public class AppFrogger extends VBox{
      
     Player p1;
     int level=1;
-    VBox container;
-    Text levelName;
-    Text lvlNum;
-    Text score;
-    Text scoreNum;
     
     FroggerItems frog = new FroggerItems("frog",-40,360,60,60);
     FroggerItems log1 = new FroggerItems("log", -280,-120,120,60);
@@ -39,10 +34,16 @@ public class AppFrogger extends StackPane{
     FroggerItems carBlue = new FroggerItems("cb", -100,40,120,71);
     FroggerItems carYellow = new FroggerItems("cy", 200,40,120,71);
     FroggerItems carGreen = new FroggerItems("cg",200,280,120,71);
-
+    
+    StackPane gameArea;
     FroggerLevels levelGen;
     Timeline slowTL;
     Timeline fastTL;
+    HBox scoreBoard;
+    Text score;
+    Text scoreNum;
+    Text levelTxt;
+    Text levelNum;
 
     /**
      *Default constructor for {@code AppFrogger}. It sets up
@@ -50,33 +51,37 @@ public class AppFrogger extends StackPane{
      */
     public AppFrogger(){
         super();
-        container = new VBox();
-        levelName = new Text("Level: ");
-        lvlNum = new Text("1");
-        score = new Text("Score: ");
-        //scoreNum = new Text(Integer.toString(p1.getScore()));
+        gameArea = new StackPane();
         levelGen=new FroggerLevels();
         frog.rotateImg(180);
-        this.getChildren().add(levelGen.getLevel());
-
+        gameArea.getChildren().add(levelGen.getLevel());
+        setUpScoreBoard();
         Thread slowThread = new Thread(()->{
                 slowTL = setUpSlowItems1(log1,log2);
-                fastTL = setUpFastItems1(truck1);
         });
         
-        //Thread fastThread = new Thread(()->{
-        //fastTL = setUpFastItems1(truck1);
-                //});
+        Thread fastThread = new Thread(()->{
+        fastTL = setUpFastItems1(truck1);
+                });
         slowThread.setDaemon(true);
         slowThread.start();
         
-        //fastThread.setDaemon(true);
-        //fastThread.start();
+        fastThread.setDaemon(true);
+        fastThread.start();
         
-        Platform.runLater(()-> this.getChildren().add(frog.getImg()));
-        //container.getChildren().addAll(levelName, this);
+        Platform.runLater(()-> gameArea.getChildren().add(frog.getImg()));
     }//AppFrogger
 
+    private void setUpScoreBoard(){
+        scoreBoard = new HBox(10);
+        score = new Text("Score: ");
+        scoreNum = new Text(Integer.toString(p1.getScore()));
+        levelTxt = new Text("Level: ");
+        levelNum = new Text(Integer.toString(level));
+        scoreBoard.getChildren().addAll(levelTxt,levelNum,score,scoreNum);
+        this.getChildren().addAll(scoreBoard,gameArea);
+    }//setUpScoreBoard
+    
     /**
      *Sets up a window to display when the player has won
      */
@@ -141,18 +146,18 @@ public class AppFrogger extends StackPane{
         frog.rotateImg(180);
         if(level==2){
             Platform.runLater(()-> {
-                    this.getChildren().remove(carBlue.getImg());
-                    this.getChildren().remove(carYellow.getImg());
+                    gameArea.getChildren().remove(carBlue.getImg());
+                    gameArea.getChildren().remove(carYellow.getImg());
                 });
         }//if
         else if(level==3){
             Platform.runLater(()-> {
                     log1.setY(-120);
                     log2.setY(-120);
-                    this.getChildren().remove(carBlue.getImg());
-                    this.getChildren().remove(carYellow.getImg());
-                    this.getChildren().remove(carGreen.getImg());
-                    this.getChildren().remove(truck2.getImg());
+                    gameArea.getChildren().remove(carBlue.getImg());
+                    gameArea.getChildren().remove(carYellow.getImg());
+                    gameArea.getChildren().remove(carGreen.getImg());
+                    gameArea.getChildren().remove(truck2.getImg());
                 });
         }//else if
         else{
@@ -369,7 +374,7 @@ public class AppFrogger extends StackPane{
      *@return timeline, the {@code Timeline} for the slow item animation  
      */
     private Timeline setUpSlowItems1(FroggerItems log1, FroggerItems log2){
-        this.getChildren().addAll(log1.getImg(), log2.getImg());
+        gameArea.getChildren().addAll(log1.getImg(), log2.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(log1);
@@ -393,7 +398,7 @@ public class AppFrogger extends StackPane{
      *@return timeline, the {@code Timeline} for the fast item animation
      */
     private Timeline setUpFastItems1(FroggerItems truck){
-        this.getChildren().add(truck.getImg());
+        gameArea.getChildren().add(truck.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(truck);
@@ -443,7 +448,7 @@ public class AppFrogger extends StackPane{
      *@return timeline, the {@code Timeline} for the fast item animation
      */
     private Timeline setUpFastItems2(FroggerItems cb, FroggerItems cy){
-        this.getChildren().addAll(cb.getImg(), cy.getImg());
+        gameArea.getChildren().addAll(cb.getImg(), cy.getImg());
         
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(cb);
@@ -471,7 +476,7 @@ public class AppFrogger extends StackPane{
      */
     private Timeline setUpSlowItems3(FroggerItems cb, FroggerItems cy,
                                      FroggerItems cg, FroggerItems truck){
-        this.getChildren().addAll(cg.getImg(), truck.getImg());
+        gameArea.getChildren().addAll(cg.getImg(), truck.getImg());
 
         EventHandler<ActionEvent> handler = event -> {
             makeHandler(cb);

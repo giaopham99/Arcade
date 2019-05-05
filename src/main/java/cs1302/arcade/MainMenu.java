@@ -38,13 +38,11 @@ public class MainMenu extends VBox{
                 t.start();
                 Stage stage = new Stage();
                 makeStage(stage,scene,"Frogger!");
-                stage.setOnCloseRequest(y-> {
-                        appFrog.stopTL();
-                    });
+                stage.setOnCloseRequest(y->appFrog.stopTL());
                 stage.show();
             });//setOnAction
         
-        //2048 Image
+        //2048 Button
         button2048.setOnAction(e-> {
                 App2048 app2048 = new App2048();
                 Scene scene = new Scene(app2048);
@@ -58,7 +56,7 @@ public class MainMenu extends VBox{
         setUpLayout();
         this.getChildren().addAll(new UtilityBar(), stack);
     }//MainMenu
-    
+
     private void control2048(Scene scene, App2048 app2048){
         scene.setOnKeyPressed(x-> {
                 switch(x.getCode()) {
