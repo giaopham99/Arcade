@@ -62,11 +62,11 @@ public class AppFrogger extends VBox{
         slowThread = new Thread(()->{
                 slowTL = setUpSlowItems1(log1,log2);
                 
-        });
+                });
         
         fastThread = new Thread(()->{
-        fastTL = setUpFastItems1(truck1);
-                });
+                fastTL = setUpFastItems1(truck1);
+                      });
         slowThread.setDaemon(true);
         slowThread.start();
         

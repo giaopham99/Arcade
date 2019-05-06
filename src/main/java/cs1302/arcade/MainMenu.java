@@ -15,6 +15,11 @@ import javafx.stage.Modality;
 import javafx.geometry.Orientation;
 import javafx.application.Platform;
 
+/**
+ *This class represents the main menu of the arcade. This is where
+ *the game selection screen is displayed and the first thing that 
+ *is seen by the user when the {@code ArcadeApp} is started 
+ */
 public class MainMenu extends VBox{
 
     ImageView viewFrogger;
@@ -25,6 +30,11 @@ public class MainMenu extends VBox{
     FlowPane imagePane;
     StackPane stack;
 
+    /**
+     *The default constructor for the main menu. It displays a
+     *2 images buttons that launch the games when pressed and
+     *a background
+     */
     public MainMenu(){
         imagePane=new FlowPane(Orientation.HORIZONTAL);
         stack=new StackPane();
@@ -41,6 +51,11 @@ public class MainMenu extends VBox{
         this.getChildren().addAll(new UtilityBar(), stack);
     }//MainMenu
 
+    /**
+     *Helper method to display the rules for 2048 when the game
+     *is selected. When the user closes this window, the game 
+     *will begin 
+     */
     private void buildRules2048(){
         VBox rules = new VBox();
         rules.getChildren().add(new Text(UtilityBar.RULES_2048));
@@ -59,7 +74,12 @@ public class MainMenu extends VBox{
         rulesStage.initModality(Modality.APPLICATION_MODAL);
         rulesStage.show();
     }//buildRules2048
-    
+
+    /**
+     *Helper method to display the rules for Frogger when the game
+     *is selected. When the user closes this window, the game 
+     *will begin
+     */
     private void buildRulesFrog(){
         VBox rules = new VBox();
         rules.getChildren().add(new Text(UtilityBar.RULES_FROGGER));
@@ -82,7 +102,14 @@ public class MainMenu extends VBox{
         rulesStage.initModality(Modality.APPLICATION_MODAL);
         rulesStage.show();
     }//buildRulesFrog
-    
+
+    /**
+     *Helper method to set up the controls for 2048. Each
+     *movement calls a method from the {@code App2048} class
+     *
+     *@param scene, the scene for 2048
+     *@param app2048, a game of 2048
+     */
     private void control2048(Scene scene, App2048 app2048){
         scene.setOnKeyPressed(x-> {
                 switch(x.getCode()) {
@@ -101,7 +128,14 @@ public class MainMenu extends VBox{
                 }
             });
     }//control2048
-    
+
+    /**
+     *Helper method to set up the controls for Frogger. Each
+     *movement calls a method from the {@code AppFrogger} class
+     *
+     *@param scene, the scene for Frogger
+     *@param app2048, a game of Frogger
+     */
     private void controlFrogger(Scene scene, AppFrogger appFrog){
         scene.setOnKeyPressed(x->{
                 switch(x.getCode()){
@@ -117,6 +151,9 @@ public class MainMenu extends VBox{
             });
     }//controlFrogger
 
+    /**
+     *Helper method to add the game pictures to the buttons on the main menu
+     */
     private void setFrogAnd2048(){
         viewFrogger=new ImageView(new Image("MenuImages/FroggerCover.jpg"));
         viewFrogger.setFitWidth(220);
@@ -126,7 +163,11 @@ public class MainMenu extends VBox{
         button2048 = new Button("",view2048);
         
     }//setFrogAnd2048
-    
+
+    /**
+     *Helper method to adjust the positioning of children so that
+     *the layout of the main menu is correct 
+     */
     private void setUpLayout(){
         imagePane.setHgap(100);
         imagePane.setAlignment(Pos.BOTTOM_CENTER);
@@ -134,6 +175,10 @@ public class MainMenu extends VBox{
         stack.getChildren().addAll(background, imagePane);
         
     }//setUpLayout
+
+    /**
+     *Helper method to make the stage for the main menu and  display it
+     */
     private void makeStage(Stage stage, Scene scene, String title){
         stage.setTitle(title);
         stage.setScene(scene);
@@ -144,4 +189,5 @@ public class MainMenu extends VBox{
         stage.setMaxWidth(1000);
         stage.show();
     }//makeStage
+    
 }//MainMenu
