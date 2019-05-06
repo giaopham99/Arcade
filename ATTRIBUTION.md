@@ -5,7 +5,7 @@ authored by members of your project team.
 
 
 ## Retro Wave
-* src/main/resources/MenuImages/Background.png
+* src/main/resources/MenuImages/Background.jpg
 * PhotoFunia. “Retro Wave” April 12, 2019
 * https://photofunia.com/effects/retro-wave
 * Capsule Digital © 2019

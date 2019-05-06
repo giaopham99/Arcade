@@ -14,7 +14,7 @@ import javafx.stage.Modality;
  * Main class that creates the functionalities of 2048.
  */
 public class App2048 extends VBox{
-
+    
     //Instance variables
     private Tile[][] board;
     private Player p1;
@@ -25,7 +25,7 @@ public class App2048 extends VBox{
     private Text actualScore;
     private boolean won;
     private Button restartGame;
-
+    
     /**
      * Constructs a new 2048 game.
      */
@@ -113,13 +113,13 @@ public class App2048 extends VBox{
         stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
-
+        
         playAgain.setOnAction(e->{
                 restart();
                 stage.close();
             });
     }//displayLoss
-
+    
     /**
      * Private method to set up the 2048 game area properties.
      */
@@ -129,7 +129,7 @@ public class App2048 extends VBox{
         game.setPrefColumns(4);
         game.setPrefRows(4);
     }//setGrid
-
+    
     /**
      * Private method to reset the game board for a new game.
      */
@@ -145,7 +145,7 @@ public class App2048 extends VBox{
         p1.setScore(0);
         actualScore.setText(Integer.toString(p1.getScore()));
     }//restart
-
+    
     /**
      * Private method to check if the game board is full.
      * @return true if the board is full; false otherwise.
@@ -161,7 +161,7 @@ public class App2048 extends VBox{
         }//for
         return isFull;
     }//isFull 
-
+    
     /**
      * Private method to check when the game is over and displays the lost message.
      */
@@ -170,13 +170,13 @@ public class App2048 extends VBox{
             displayLoss();
         }//if
     }//gameOver
-
+    
     /**
      * Private method to generate a random 2 or 4 Tile onto the board.
      */ 
     private void genRandPos(){
         boolean generated=false;
-
+        
         while(!generated && !isFull()){
             int genX = (int)(Math.random() * 4);
             int genY = (int)(Math.random() * 4);
@@ -194,7 +194,7 @@ public class App2048 extends VBox{
             }//if
         }//while
     }//getRandPos
-
+    
     /**
      * Private method to swap a Tile with another horizontally.
      * @param row the row where the swap will happen.
@@ -218,7 +218,7 @@ public class App2048 extends VBox{
         board[first][col].setValue(board[sec][col].getValue());
         board[sec][col].setValue(copy.getValue());
     }//swapV
-   
+    
     /**
      * Private method that checks to see if any Tile can still slide Horizontally.
      * @return true if Tiles can still slide; false otherwise.
@@ -234,7 +234,7 @@ public class App2048 extends VBox{
         }//for
         return canSlide;   
     }//canSlideH
-
+    
     /**
      * Private method that checks to see if any Tile can still slide Vertically.
      * @return true if Tiles can still slide; false otherwise.
@@ -250,7 +250,7 @@ public class App2048 extends VBox{
         }//for
         return canSlide;
     }//canSlideV
-
+    
     /**
      * Method to slide all the tiles up and generates a new Tile after each slide.
      * Checks to see if the game can continue after each move.
@@ -267,7 +267,7 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideUp
-
+    
     /**
      * Private method to slide a specific column up.
      * @param col the specified column to move up.
@@ -281,7 +281,7 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideColUp
-
+    
     /**
      * Private method to combine elements in a specified column upwards.
      * @param col the specified column to combine upwards.
@@ -300,7 +300,7 @@ public class App2048 extends VBox{
             }//if
         }//for
     }//combineUp
-
+    
     /**
      * Method to slide all the tiles down and generate a new Tile after each slide.
      * Checks to see if the game can continue after each move.
@@ -316,7 +316,7 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideDown
-
+    
     /**
      * Private method to slide a specific column down.
      * @param col the specified column to move down.
@@ -330,7 +330,7 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideColDown
-
+    
     /**
      * Private method to combine elements in a specified column downwards.
      * @param col the specified column to combine downwards.
@@ -365,7 +365,7 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideLeft
-
+    
     /**
      * Private method to slide a specific row left.
      * @param row the specified row to move left.
@@ -379,7 +379,7 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideRowLeft
-
+    
     /**
      * Private method to combine elements in a specified row left.
      * @param row the specified row to combine left.
@@ -413,7 +413,7 @@ public class App2048 extends VBox{
         genRandPos();
         gameOver();
     }//slideRight
-
+    
     /**
      * Private method to slide a specific row right.
      * @param row the specified row to move right.
@@ -427,7 +427,7 @@ public class App2048 extends VBox{
             }//for
         }//for
     }//slideRowRight
-
+    
     /**
      * Private method to combine elements in a specified row right.
      * @param row the specified row to combine right.
@@ -444,6 +444,5 @@ public class App2048 extends VBox{
                 }//if
             }//if
         }//for
-    }//combineRight
-    
+    }//combineRight    
 }//App2048

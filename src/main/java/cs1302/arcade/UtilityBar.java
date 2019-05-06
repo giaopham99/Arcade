@@ -18,7 +18,7 @@ import javafx.stage.Modality;
  *and exit the arcade
  */ 
 public class UtilityBar extends MenuBar{
-
+    
     MenuItem exitArcade;
     MenuItem exitGame;
     MenuItem controls;
@@ -26,23 +26,23 @@ public class UtilityBar extends MenuBar{
     Menu help;
     
     public static final String RULES_FROGGER = "Controls- \n\n" +
-            "LEFT ARROW KEY: Moves the frog left one space. \n" +
-            "RIGHT ARROW KEY: Moves the frog right one space. \n" +
-            "DOWN ARROW KEY: Moves the frog down one space. \n" +
-            "UP ARROW: Moves the frog up one space. \n \n \n" +
-            "How To Play- \n" +
-            "Get the frog from the starting position to a lily pad " +
-            "without getting \n hit by a vehicle or jumping into the water.";
-
+        "LEFT ARROW KEY: Moves the frog left one space. \n" +
+        "RIGHT ARROW KEY: Moves the frog right one space. \n" +
+        "DOWN ARROW KEY: Moves the frog down one space. \n" +
+        "UP ARROW: Moves the frog up one space. \n \n \n" +
+        "How To Play- \n" +
+        "Get the frog from the starting position to a lily pad " +
+        "without getting \n hit by a vehicle or jumping into the water.";
+    
     public static final String RULES_2048 = "Controls- \n \n" +
-            "LEFT ARROW KEY: Slides all Tiles to the left. \n" +
-            "RIGHT ARROW KEY: Slides all Tiles to the right. \n" +
-            "DOWN ARROW KEY: Slides all Tiles down. \n"+
-            "UP ARROW KEY: Slides all Tiles up. \n \n"+
-            "How To Play- \n \n"+
-            "Combine tiles with the same numeric values to reach 2048. \n"+
-            "After reaching the Tile 2048, you may choose to continue to reach 8192.";
-
+        "LEFT ARROW KEY: Slides all Tiles to the left. \n" +
+        "RIGHT ARROW KEY: Slides all Tiles to the right. \n" +
+        "DOWN ARROW KEY: Slides all Tiles down. \n"+
+        "UP ARROW KEY: Slides all Tiles up. \n \n"+
+        "How To Play- \n \n"+
+        "Combine tiles with the same numeric values to reach 2048. \n"+
+        "After reaching the Tile 2048, you may choose to continue to reach 8192.";
+    
     /**
      *The default constructor for the utility bar used in the application
      *Provides a file option and a help option
@@ -53,7 +53,7 @@ public class UtilityBar extends MenuBar{
         help = new Menu("Help");
         exitArcade=new MenuItem("Exit Arcade");
         controls=new MenuItem("Controls");
-
+        
         //set actions for menuItems
         exitArcade.setOnAction(e -> System.exit(0));
         controls.setOnAction(e -> controlScreen());
@@ -63,7 +63,7 @@ public class UtilityBar extends MenuBar{
         
         this.getMenus().addAll(file, help);
     }//UtilityBar
-
+    
     /**
      *Method that creates a tab pane to display the controls when selected
      *from the help menu
@@ -79,10 +79,10 @@ public class UtilityBar extends MenuBar{
         TabPane pane = new TabPane();
         Tab tabFrogger = new Tab("Frogger Rules",pageFrogger);
         Tab tab2048 = new Tab("2048 Rules", page2048);
-
+        
         pane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         pane.getTabs().addAll(tabFrogger, tab2048);
-            
+        
         //Create Stage and Scene
         Scene scene = new Scene(pane);
         Stage helpWindow = new Stage();
@@ -95,6 +95,5 @@ public class UtilityBar extends MenuBar{
         helpWindow.initModality(Modality.APPLICATION_MODAL);
         helpWindow.setTitle("How To Play");
         helpWindow.show();
-    } // controlScreen()
-    
+    } // controlScreen()    
 }//UtilityBar

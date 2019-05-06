@@ -13,6 +13,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * This represents our Arcade.
+ */
 public class ArcadeApp extends Application {
 
     Group group = new Group();           // main container
@@ -51,21 +54,7 @@ public class ArcadeApp extends Application {
     /** {@inheritdoc} */
     @Override
     public void start(Stage stage) {
-
-        /* You are allowed to rewrite this start method, add other methods,
-         * files, classes, etc., as needed. This currently contains some
-         * simple sample code for mouse and keyboard interactions with a node
-         * (rectangle) in a group.
-         */
-
-        // r.setX(50);                                // 50px in the x direction (right)
-        //r.setY(50);                                // 50ps in the y direction (down)
-        //group.getChildren().add(r);                // add to main container
-        //r.setOnMouseClicked(createMouseHandler()); // clicks on the rectangle move it randomly
-        //group.setOnKeyPressed(createKeyHandler()); // left-right key presses move the rectangle
-
         this.stage = stage;
-        //Scene scene = new Scene(group, 640, 480);
         MainMenu main = new MainMenu();
         Scene scene = new Scene(main);
         stage.setTitle("cs1302-arcade!");
@@ -73,11 +62,5 @@ public class ArcadeApp extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
-
-        // the group must request input focus to receive key events
-        // @see https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html#requestFocus--
-        //group.requestFocus();
-
     } // start
-
 } // ArcadeApp
